@@ -146,30 +146,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QED-JV-NKe">
-                                <rect key="frame" x="148" y="516" width="78" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="click"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QED-JV-NKe">
+                                <rect key="frame" x="50" y="537" width="275" height="30"/>
+                                <state key="normal" title="Add City"/>
                                 <connections>
                                     <action selector="tapButton:" destination="NIA-iK-csu" eventType="touchUpInside" id="SMp-gB-OuR"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Input Name City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVW-yO-z3i">
-                                <rect key="frame" x="87" y="126" width="200" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Input Name City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVW-yO-z3i">
+                                <rect key="frame" x="10" y="70" width="355" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New York" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rzV-QJ-EGu">
-                                <rect key="frame" x="139" y="190" width="97" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New York" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rzV-QJ-EGu">
+                                <rect key="frame" x="50" y="141" width="275" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" textContentType="address-level2"/>
+                                <connections>
+                                    <action selector="edit:" destination="NIA-iK-csu" eventType="editingChanged" id="vVm-Mu-69p"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="aVW-yO-z3i" firstAttribute="top" secondItem="vNB-Nw-VpN" secondAttribute="top" constant="50" id="CJr-mU-2fK"/>
+                            <constraint firstItem="rzV-QJ-EGu" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="50" id="Ddg-tg-fNV"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="aVW-yO-z3i" secondAttribute="trailing" constant="10" id="HSR-eF-JtK"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="bottom" secondItem="QED-JV-NKe" secondAttribute="bottom" constant="100" id="gAl-Ci-3Gb"/>
+                            <constraint firstItem="aVW-yO-z3i" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="10" id="hC5-wT-ey9"/>
+                            <constraint firstItem="rzV-QJ-EGu" firstAttribute="top" secondItem="aVW-yO-z3i" secondAttribute="bottom" constant="50" id="hFB-FS-IcA"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="rzV-QJ-EGu" secondAttribute="trailing" constant="50" id="l0k-ns-4FQ"/>
+                            <constraint firstItem="QED-JV-NKe" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="50" id="lDn-mi-Qsi"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="QED-JV-NKe" secondAttribute="trailing" constant="50" id="sBt-Yy-JjI"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="vNB-Nw-VpN"/>
                     </view>
                     <connections>

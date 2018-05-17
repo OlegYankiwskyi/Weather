@@ -11,17 +11,23 @@ import UIKit
 class NewCityController: UIViewController {
 
     @IBOutlet weak var cityTextField: UITextField!
+    let citiesModel = CitiesModel()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        print("NewCityController")
+    @IBAction func edit(_ sender: Any) {
+        self.cityTextField.backgroundColor = .clear
     }
     
-    
     @IBAction func tapButton(_ sender: Any) {
-        print(cityTextField.text)
-//        self.dismiss(animated: true)
+        citiesModel.isValidCity(city: cityTextField.text!, complete: { isValid in
+            DispatchQueue.main.async {
+                if isValid {
+                    self.cityTextField.backgroundColor = .green
+                    self.dismiss(animated: true)
+                } else {
+                    self.cityTextField.backgroundColor = .red
+                }
+            }
+        })
     }
     
 }

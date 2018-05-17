@@ -11,19 +11,36 @@ import UIKit
 class PageViewController: UIPageViewController {
     
     var citiesModel = CitiesModel()
-    lazy var controllers: [WeatherCityController] = {
-        var array: [WeatherCityController] = []
-        
-        citiesModel.cities.forEach({ type in
-            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WeatherCityController") as? WeatherCityController else { return }
-            controller.model = WeatherModelFactory.getModel(type: type)
-            array.append(controller)
-        })
-        return array
-    }()
-
+    var controllersStore: [WeatherCityController] = []
+    
+    var controllers: [WeatherCityController] {
+        get {
+            if controllersStore.count == citiesModel.cities.count {
+                return controllersStore
+//            } else if controllersStore.count+1 == citiesModel.cities.count {
+//                let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "WeatherCityController") as! WeatherCityController
+//                controller.model = WeatherModelFactory.getModel(type: citiesModel.cities.last!)
+//                controllersStore.append(controller)
+//                return controllersStore
+            } else {
+                controllersStore = []
+                for i in 0..<citiesModel.cities.count {
+                    guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return controllersStore }
+                    controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
+                    controllersStore.append(controller)
+                }
+                return controllersStore
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        for i in 0..<citiesModel.cities.count {//TO DO
+            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return }
+            controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
+            controllersStore.append(controller)
+        }
         self.delegate = self
         self.dataSource = self
         setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)

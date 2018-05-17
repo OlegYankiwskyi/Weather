@@ -31,8 +31,8 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     }
     
     private func getLocationKey(latitude: Double, longitude: Double, complete: @escaping (JSON)->Void) {
-        let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(apiKey)&q=\(latitude)%2C\(longitude)"
-        request(url: url, complete: { data in
+        let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(ApiKey.key)&q=\(latitude)%2C\(longitude)"
+        Request.request(url: url, complete: { data in
             let locationKey = data["Key"]
             if locationKey == "null" {
                 print("locationKey is null")
@@ -52,10 +52,8 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
         locationManager.distanceFilter = 100.0  // In meters.
         
         if CLLocationManager.locationServicesEnabled() {
-            print("Location servicese are enabled!")
             locationManager.startUpdatingLocation()
-        }
-        else {
+        } else {
             print("Location Services not endabled!")
         }
     }
@@ -66,7 +64,6 @@ extension WeatherLocationModel: CLLocationManagerDelegate {
         guard let lastLocation = locations.last else { return }
         latitude = lastLocation.coordinate.latitude
         longitude = lastLocation.coordinate.longitude
-        print("update \(latitude)")
     }
 }
 
