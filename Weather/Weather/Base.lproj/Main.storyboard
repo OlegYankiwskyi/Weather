@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="88b-Za-ZrF">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,10 +11,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Weather City Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WeatherCityController" id="BYZ-38-t0r" customClass="WeatherCityController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -90,6 +90,13 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pIm-Go-87S">
+                                <rect key="frame" x="0.0" y="490.5" width="375" height="30"/>
+                                <state key="normal" title="Add City"/>
+                                <connections>
+                                    <action selector="addCityTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jql-3g-hf8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.88853929546462795" green="0.9073548115542811" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -99,11 +106,14 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aXG-FB-fbY" secondAttribute="trailing" constant="10" id="RBA-zA-AfB"/>
                             <constraint firstItem="uta-EE-9O3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="Rus-pg-6Mk"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dfQ-9F-rtw" secondAttribute="trailing" id="V4u-61-F5b"/>
+                            <constraint firstItem="dfQ-9F-rtw" firstAttribute="top" secondItem="pIm-Go-87S" secondAttribute="bottom" constant="5" id="XYw-g0-zQO"/>
                             <constraint firstItem="uta-EE-9O3" firstAttribute="top" secondItem="i5X-EO-585" secondAttribute="bottom" constant="50" id="ZDq-x1-YNW"/>
                             <constraint firstItem="mgx-7E-gMM" firstAttribute="top" secondItem="uta-EE-9O3" secondAttribute="bottom" constant="20" id="dBr-Ii-bK4"/>
                             <constraint firstItem="i5X-EO-585" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="dgo-z2-fqZ"/>
                             <constraint firstItem="mgx-7E-gMM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="eZi-oq-hZH"/>
+                            <constraint firstItem="pIm-Go-87S" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="g3p-cE-3Y9"/>
                             <constraint firstItem="i5X-EO-585" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="j1A-8q-CSi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="pIm-Go-87S" secondAttribute="trailing" id="jmD-AH-Qeh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="rnk-Iq-g0F" secondAttribute="trailing" constant="10" id="kkF-Cp-huh"/>
                             <constraint firstItem="aXG-FB-fbY" firstAttribute="top" secondItem="rnk-Iq-g0F" secondAttribute="bottom" constant="20" id="lrq-dM-2bG"/>
                             <constraint firstItem="dfQ-9F-rtw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="nz9-O9-eDQ"/>
@@ -126,6 +136,57 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="-569" y="32"/>
+        </scene>
+        <!--New City Controller-->
+        <scene sceneID="IG6-nx-WNY">
+            <objects>
+                <viewController storyboardIdentifier="NewCityController" id="NIA-iK-csu" customClass="NewCityController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="t4c-jj-259">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QED-JV-NKe">
+                                <rect key="frame" x="148" y="516" width="78" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="click"/>
+                                <connections>
+                                    <action selector="tapButton:" destination="NIA-iK-csu" eventType="touchUpInside" id="SMp-gB-OuR"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Input Name City" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVW-yO-z3i">
+                                <rect key="frame" x="87" y="126" width="200" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="New York" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rzV-QJ-EGu">
+                                <rect key="frame" x="139" y="190" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="vNB-Nw-VpN"/>
+                    </view>
+                    <connections>
+                        <outlet property="cityTextField" destination="rzV-QJ-EGu" id="rBA-84-H5x"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U4c-bx-IAI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-570.39999999999998" y="814.54272863568224"/>
+        </scene>
+        <!--Page View Controller-->
+        <scene sceneID="zoE-kw-n5l">
+            <objects>
+                <pageViewController storyboardIdentifier="PageViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="88b-Za-ZrF" customClass="PageViewController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lUE-hf-fJf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="798" y="32"/>
         </scene>
     </scenes>
 </document>
