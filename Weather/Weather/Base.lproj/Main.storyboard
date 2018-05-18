@@ -107,7 +107,7 @@
                                     <action selector="addCityTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jql-3g-hf8"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2c0-gB-Z1d">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2c0-gB-Z1d">
                                 <rect key="frame" x="0.0" y="259" width="414" height="170"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -115,7 +115,7 @@
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dAa-AY-l3y" id="FTt-ML-P0U">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXE-20-XXg">
@@ -125,13 +125,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txK-p9-hM7">
-                                                    <rect key="frame" x="337" y="11" width="28" height="22"/>
+                                                    <rect key="frame" x="366" y="11" width="28" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.41658695153769015" green="0.50245699169482072" blue="0.56883500647668395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6B-AR-bdg">
-                                                    <rect key="frame" x="294" y="11" width="28" height="22"/>
+                                                    <rect key="frame" x="323" y="11" width="28" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -140,8 +140,8 @@
                                             <constraints>
                                                 <constraint firstItem="txK-p9-hM7" firstAttribute="leading" secondItem="L6B-AR-bdg" secondAttribute="trailing" constant="15" id="2Mk-fk-ViM"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="jXE-20-XXg" secondAttribute="bottom" id="8eG-bz-ScJ"/>
-                                                <constraint firstItem="txK-p9-hM7" firstAttribute="trailing" secondItem="FTt-ML-P0U" secondAttribute="trailingMargin" constant="5" id="DFS-59-lIt"/>
                                                 <constraint firstItem="txK-p9-hM7" firstAttribute="top" secondItem="FTt-ML-P0U" secondAttribute="topMargin" id="PwW-xm-G4N"/>
+                                                <constraint firstAttribute="trailing" secondItem="txK-p9-hM7" secondAttribute="trailing" constant="20" id="cN9-ZB-qYD"/>
                                                 <constraint firstItem="jXE-20-XXg" firstAttribute="top" secondItem="FTt-ML-P0U" secondAttribute="topMargin" id="exW-ST-XnE"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="L6B-AR-bdg" secondAttribute="bottom" id="itT-DX-Q0I"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="txK-p9-hM7" secondAttribute="bottom" id="vst-Ja-OGP"/>
