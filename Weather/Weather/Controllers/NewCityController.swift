@@ -29,4 +29,15 @@ class NewCityController: UIViewController {
             }
         })
     }
+    
+    @IBAction func tapBackButton(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+}
+
+extension NewCityController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ scoreText: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
 }
