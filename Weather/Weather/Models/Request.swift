@@ -21,6 +21,7 @@ class Request {
                 guard let data = data else { return }
                 complete(JSON(data))
             } else {
+                print(url)
                 print("error request , status code = \(httpResponse.statusCode)")
             }
         }

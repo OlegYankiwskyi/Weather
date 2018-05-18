@@ -11,13 +11,15 @@ import SwiftyJSON
 
 protocol WeatherModelProtocol: class {
     var weatherDay: WeatherDay { get set }
-    var weatherHours: [WeatherHours] { get set }
+    var weatherTwelveHours: [WeatherHours] { get set }
+    var weatherTenDays: [WeatherDay] { get set }
+    var city: String { get set }
 
     func updateData(complete: @escaping ()->Void)
 }
 
 extension WeatherModelProtocol {
-    func getWeatherDay(locationKey: JSON, complete: @escaping ()->Void) {
+    func getWeatherOneDay(locationKey: JSON, complete: @escaping ()->Void) {
         let url = "https://dataservice.accuweather.com/forecasts/v1/daily/1day/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
         Request.request(url: url, complete: { data in
             self.weatherDay.temperatureMax = data["DailyForecasts"][0]["Temperature"]["Maximum"]["Value"].int
@@ -28,15 +30,28 @@ extension WeatherModelProtocol {
         })
     }
     
-    func getWeatherHours(locationKey: JSON, complete: @escaping ()->Void) {
+    func getWeatherTwelveHours(locationKey: JSON, complete: @escaping ()->Void) {
         let url = "https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
         Request.request(url: url, complete: { data in
             for i in 0..<12 {
-                let temperature = data[i]["Temperature"]["Value"]
-                if self.weatherHours.indices.contains(i) {
-                    self.weatherHours[i] = WeatherHours(temperature: temperature.int)
-                } else {
-                    self.weatherHours.append(WeatherHours(temperature: temperature.int))
+                guard let temperature = data[i]["Temperature"]["Value"].int,
+                    let time = data[i]["DateTime"].string else { return }
+                self.weatherTwelveHours[i] = WeatherHours(temperature: temperature, time: Parser.getTime(str: time))
+            }
+            complete()
+        })
+    }
+    
+    func getWeatherFiveDays(locationKey: JSON, complete: @escaping ()->Void) {
+        let url = "https://dataservice.accuweather.com/forecasts/v1/daily/5day/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
+        Request.request(url: url, complete: { data in
+            for i in 0..<self.weatherTenDays.count {
+                self.weatherTenDays[i].temperatureMax = data["DailyForecasts"][i]["Temperature"]["Maximum"]["Value"].int
+                self.weatherTenDays[i].temperatureMin = data["DailyForecasts"][i]["Temperature"]["Minimum"]["Value"].int
+                self.weatherTenDays[i].dayDescription = data["DailyForecasts"][i]["Day"]["IconPhrase"].string
+                self.weatherTenDays[i].nightDescription = data["DailyForecasts"][i]["Night"]["IconPhrase"].string
+                if let date = data["DailyForecasts"][i]["Date"].string {
+                    self.weatherTenDays[i].dayOfWeek = Parser.getDayOfWeek(date)
                 }
             }
             complete()

@@ -11,12 +11,13 @@ import SwiftyJSON
 import MapKit
 
 class WeatherLocationModel: NSObject, WeatherModelProtocol {
-    
     var weatherDay = WeatherDay()
-    var weatherHours: [WeatherHours] = []
+    var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
+    var weatherTenDays = [WeatherDay](repeating: WeatherDay(), count: 5)
+    var city: String = ""
     let locationManager = CLLocationManager()
-    var latitude = 31.0//TO DO
-    var longitude = -110.0//TO DO
+    var latitude = 31.0 //TO DO
+    var longitude = -110.0 //TO DO
     
     override init() {
         super.init()
@@ -25,8 +26,9 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     
     func updateData(complete: @escaping ()->Void) {
         getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
-            self.getWeatherDay(locationKey: locationKey, complete: complete)
-            self.getWeatherHours(locationKey: locationKey, complete: complete)
+            self.getWeatherOneDay(locationKey: locationKey, complete: complete)
+            self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
+            self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
         })
     }
     
@@ -39,7 +41,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
                 return
             }
             if let city = data["AdministrativeArea"]["EnglishName"].string {
-                self.weatherDay.city = city
+                self.city = city
             }
             complete(locationKey)
         })
@@ -49,7 +51,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.distanceFilter = 100.0  // In meters.
+        locationManager.distanceFilter = 100.0  
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()

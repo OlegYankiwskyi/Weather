@@ -10,5 +10,15 @@ import UIKit
 
 class CustomCollectionViewCell: UICollectionViewCell {
     
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var time: UILabel!
+    @IBOutlet weak var temperature: UILabel!
+    
+    func configure(data: WeatherHours) {
+        if let time = data.time {
+            self.time.text = "\(time)"
+        }
+        if let temperature = data.temperature {
+            self.temperature.text = "\(temperature)°"
+        }
+    }
 }

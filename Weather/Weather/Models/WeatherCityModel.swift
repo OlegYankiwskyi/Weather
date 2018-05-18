@@ -12,17 +12,19 @@ import SwiftyJSON
 class WeatherCityModel: WeatherModelProtocol {
 
     var weatherDay = WeatherDay()
-    var weatherHours: [WeatherHours] = []
+    var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
+    var weatherTenDays = [WeatherDay](repeating: WeatherDay(), count: 5)
+    var city: String = "wait"
     
     init(city: String) {
-        self.weatherDay.city = city
+        self.city = city
     }
     
     func updateData(complete: @escaping ()->Void) {
-        guard let city = self.weatherDay.city else { return }
         getLocationKey(city: city, complete: { locationKey in
-            self.getWeatherDay(locationKey: locationKey, complete: complete)
-            self.getWeatherHours(locationKey: locationKey, complete: complete)
+            self.getWeatherOneDay(locationKey: locationKey, complete: complete)
+            self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
+            self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
         })
     }
     
@@ -37,7 +39,7 @@ class WeatherCityModel: WeatherModelProtocol {
                 return
             }
             if let city = data[0]["EnglishName"].string {
-                self.weatherDay.city = city
+                self.city = city
             }
             complete(locationKey)
         })

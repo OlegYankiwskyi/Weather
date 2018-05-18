@@ -21,6 +21,8 @@ class CitiesModel: Request {
     override init() {
         super.init()
         self.updateData()
+//        let defaults = UserDefaults.standard
+//        defaults.set([], forKey: keyArray)
     }
     
     func isValidCity(city: String, complete: @escaping (Bool)->Void) {

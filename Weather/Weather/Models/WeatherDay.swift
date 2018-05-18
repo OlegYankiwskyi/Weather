@@ -9,7 +9,7 @@
 import Foundation
 
 struct WeatherDay {
-    var city: String?
+    var dayOfWeek: String?
     var nightDescription: String?
     var dayDescription: String?
     var temperatureMax: Int?

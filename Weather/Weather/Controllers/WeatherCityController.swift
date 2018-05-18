@@ -12,11 +12,12 @@ import CoreLocation
 class WeatherCityController: UIViewController {
     var model: WeatherModelProtocol!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var weatherHours: UICollectionView!
+    @IBOutlet weak var weatherTwelveHours: UICollectionView!
     @IBOutlet weak var temperatureMaxLabel: UILabel!
     @IBOutlet weak var temperatureMinLabel: UILabel!
     @IBOutlet weak var dayWeatherLabel: UILabel!
     @IBOutlet weak var nightWeatherLabel: UILabel!
+    @IBOutlet weak var weatherFiveDays: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +30,13 @@ class WeatherCityController: UIViewController {
         DispatchQueue.main.async {
             guard let maxTemp = self.model.weatherDay.temperatureMax, let minTemp = self.model.weatherDay.temperatureMin,
                 let nightWeather = self.model.weatherDay.nightDescription, let dayWeather = self.model.weatherDay.dayDescription else { return }
-            self.cityLabel.text = self.model.weatherDay.city
+            self.cityLabel.text = self.model.city
             self.temperatureMaxLabel.text = "Max = \(maxTemp)° C"
             self.temperatureMinLabel.text = "Min = \(minTemp)° C"
             self.dayWeatherLabel.text = "day: \(dayWeather)"
             self.nightWeatherLabel.text = "night: \(nightWeather)"
-            self.weatherHours.reloadData()
+            self.weatherTwelveHours.reloadData()
+            self.weatherFiveDays.reloadData()
         }
     }
     
@@ -46,16 +48,25 @@ class WeatherCityController: UIViewController {
 
 extension WeatherCityController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.weatherHours.count
+        return model.weatherTwelveHours.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseIdentifier, for: indexPath) as? CustomCollectionViewCell else { return UICollectionViewCell() }
-        if let temperature = model.weatherHours[indexPath.row].temperature {
-            cell.label.text = "\(temperature)° C"
-        } else {
-            cell.label.text = "good"
-        }
+        cell.configure(data: model.weatherTwelveHours[indexPath.row])
+
+        return cell
+    }
+}
+
+extension WeatherCityController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return model.weatherTenDays.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.reuseIdentifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell() }
+        cell.configure(data: model.weatherTenDays[indexPath.row])
         return cell
     }
 }
