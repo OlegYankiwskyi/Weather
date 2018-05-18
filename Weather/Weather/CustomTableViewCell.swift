@@ -15,10 +15,14 @@ class CustomTableViewCell: UITableViewCell {
     @IBOutlet weak var minTemperature: UILabel!
     
     func configure(data: WeatherDay) {
-        guard let maxTemp = data.temperatureMax, let minTemp = data.temperatureMin,
-            let dayOfWeek = data.dayOfWeek else { return }
-        self.dayOfWeek.text = dayOfWeek
-        self.maxTemperature.text = "\(maxTemp)°"
-        self.minTemperature.text = "\(minTemp)°"
+        if let dayOfWeek = data.dayOfWeek {
+            self.dayOfWeek.text = dayOfWeek
+        }
+        if let maxTemp = data.temperatureMax {
+            self.maxTemperature.text = "\(maxTemp)°"
+        }
+        if let minTemp = data.temperatureMin {
+            self.minTemperature.text = "\(minTemp)°"
+        }
     }
 }

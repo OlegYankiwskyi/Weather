@@ -14,7 +14,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherDay = WeatherDay()
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
     var weatherTenDays = [WeatherDay](repeating: WeatherDay(), count: 5)
-    var city: String = ""
+    var city = String()
     let locationManager = CLLocationManager()
     var delegateUpdate = {}
     
@@ -51,7 +51,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.startUpdatingLocation()
         } else {
-            print("Location Services not endabled!")
+            print("Location Services not endabled")
         }
     }
 }
