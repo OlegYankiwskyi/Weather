@@ -36,16 +36,16 @@ class PageViewController: UIPageViewController {
         updateControllers()
         self.delegate = self
         self.dataSource = self
-        setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
     }
     
     private func updateControllers() {
         controllersStore = []
-        for i in 0..<citiesModel.cities.count { 
+        for i in 0..<citiesModel.cities.count {
             guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { break }
             controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
             controllersStore.append(controller)
         }
+        setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
     }
 }
 

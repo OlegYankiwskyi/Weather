@@ -40,15 +40,15 @@ class WeatherCityController: UIViewController {
         }
     }
     
-    @IBAction func addCityTap(_ sender: Any) {
+    @IBAction func addCityButtonTap(_ sender: Any) {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewCityController") as? NewCityController else { return }
         self.present(controller, animated: true, completion: nil)
     }
     
-    @IBAction func deleteCityTap(_ sender: Any) {
+    @IBAction func deleteCityButtonTap(_ sender: Any) {
         let citiesModel = CitiesModel()
+        print("controller")
         citiesModel.deleteCity(city: model.city)
-
     }
     
 }

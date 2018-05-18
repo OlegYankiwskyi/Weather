@@ -104,7 +104,7 @@
                                 <rect key="frame" x="30" y="424" width="59" height="30"/>
                                 <state key="normal" title="Add City"/>
                                 <connections>
-                                    <action selector="addCityTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jql-3g-hf8"/>
+                                    <action selector="addCityButtonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jql-3g-hf8"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2c0-gB-Z1d">
@@ -168,7 +168,7 @@
                                 <rect key="frame" x="326" y="424" width="58" height="30"/>
                                 <state key="normal" title="Delete It"/>
                                 <connections>
-                                    <action selector="deleteCityTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pv5-lW-U7i"/>
+                                    <action selector="deleteCityButtonTap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Pv5-lW-U7i"/>
                                 </connections>
                             </button>
                         </subviews>

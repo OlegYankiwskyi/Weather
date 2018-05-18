@@ -9,44 +9,43 @@
 import Foundation
 
 class CitiesModel: Request {
-    private var arrayCities: [TypeModel] = [.location, .city(name: "New York")]
+    private var arrayCities: [TypeModel] = [.location]
     var cities: [TypeModel] {
         get {
             self.updateData()
             return arrayCities
         }
     }
-    let keyArray = "citiesArray"
+    private let keyArray = "citiesArray"
     
     override init() {
         super.init()
         self.updateData()
-//        let defaults = UserDefaults.standard
-//        defaults.set([], forKey: keyArray)
     }
     
-    func isValidCity(city: String, complete: @escaping (Bool)->Void) {
+    func isValidCity(city: String, complete: @escaping (Bool,String)->Void) {
         let parcedCity = city.replacingOccurrences(of: " ", with: "%20")
         let url = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=\(ApiKey.key)&q=\(parcedCity)"
         
         Request.request(url: url, complete: { data in
             if let city = data[0]["EnglishName"].string {
-                self.addCity(city: city)
-                complete(true)
+                complete(true, city)
             } else {
-                complete(false)
+                complete(false, "")
             }
         })
     }
     
     func deleteCity(city cityName: String) {
+        print(cityName)
+        print(cities)
         if let index = cities.index(of: .city(name: cityName)) {
             arrayCities.remove(at: index)
             saveData()
         }
     }
     
-    private func addCity(city cityName: String) {
+    func addCity(city cityName: String) {
         let isContains = arrayCities.contains { $0 == .city(name: cityName) }
     
         if isContains {

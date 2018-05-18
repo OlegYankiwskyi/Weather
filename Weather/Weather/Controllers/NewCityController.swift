@@ -18,10 +18,15 @@ class NewCityController: UIViewController {
     }
     
     @IBAction func tapButton(_ sender: Any) {
-        citiesModel.isValidCity(city: cityTextField.text!, complete: { isValid in
+        guard let city = cityTextField.text else {
+            self.cityTextField.backgroundColor = .red
+            return
+        }
+        citiesModel.isValidCity(city: city, complete: { isValid, cityName in
             DispatchQueue.main.async {
                 if isValid {
                     self.cityTextField.backgroundColor = .green
+                    self.citiesModel.addCity(city: cityName)
                     self.dismiss(animated: true)
                 } else {
                     self.cityTextField.backgroundColor = .red
