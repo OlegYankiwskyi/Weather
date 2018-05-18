@@ -44,6 +44,13 @@ class WeatherCityController: UIViewController {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewCityController") as? NewCityController else { return }
         self.present(controller, animated: true, completion: nil)
     }
+    
+    @IBAction func deleteCityTap(_ sender: Any) {
+        let citiesModel = CitiesModel()
+        citiesModel.deleteCity(city: model.city)
+
+    }
+    
 }
 
 extension WeatherCityController: UICollectionViewDelegate, UICollectionViewDataSource {

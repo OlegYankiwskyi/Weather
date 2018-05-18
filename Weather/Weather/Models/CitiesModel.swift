@@ -9,7 +9,7 @@
 import Foundation
 
 class CitiesModel: Request {
-    private var arrayCities: [TypeModel] = [.location]
+    private var arrayCities: [TypeModel] = [.location, .city(name: "New York")]
     var cities: [TypeModel] {
         get {
             self.updateData()
@@ -39,6 +39,13 @@ class CitiesModel: Request {
         })
     }
     
+    func deleteCity(city cityName: String) {
+        if let index = cities.index(of: .city(name: cityName)) {
+            arrayCities.remove(at: index)
+            saveData()
+        }
+    }
+    
     private func addCity(city cityName: String) {
         let isContains = arrayCities.contains { $0 == .city(name: cityName) }
     
@@ -53,8 +60,8 @@ class CitiesModel: Request {
     private func saveData() {
         let defaults = UserDefaults.standard
         var array: [String] = []
-        for i in 1..<cities.count {
-            switch cities[i] {
+        for i in 1..<arrayCities.count {
+            switch arrayCities[i] {
             case .city(let name):
                 array.append(name)
             default:
@@ -67,12 +74,9 @@ class CitiesModel: Request {
     private func updateData() {
         let defaults = UserDefaults.standard
         let myarray = defaults.stringArray(forKey: keyArray) ?? [String]()
+        arrayCities = [.location]
         for i in 0..<myarray.count {
-            if arrayCities.indices.contains(i+1) {
-                arrayCities[i+1] = .city(name: myarray[i])
-            } else {
-                arrayCities.append(.city(name: myarray[i]))
-            }
+            arrayCities.append(.city(name: myarray[i]))
         }
     }
 }

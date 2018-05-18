@@ -15,14 +15,17 @@ class PageViewController: UIPageViewController {
     
     var controllers: [WeatherCityController] {
         get {
-            if controllersStore.count == citiesModel.cities.count {
+            let controllersCount = controllersStore.count
+            let citiesCount = citiesModel.cities.count
+            if controllersCount == citiesCount {
                 return controllersStore
-            } else if controllersStore.count+1 == citiesModel.cities.count {
+            } else if controllersCount+1 == citiesCount {
                 guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return controllersStore }
                 controller.model = WeatherModelFactory.getModel(type: citiesModel.cities.last!)
                 controllersStore.append(controller)
                 return controllersStore
             } else {
+                updateControllers()
                 return controllersStore
             }
         }
@@ -30,14 +33,19 @@ class PageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        for i in 0..<citiesModel.cities.count { //TO DO
-            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return }
-            controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
-            controllersStore.append(controller)
-        }
+        updateControllers()
         self.delegate = self
         self.dataSource = self
         setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
+    }
+    
+    private func updateControllers() {
+        controllersStore = []
+        for i in 0..<citiesModel.cities.count { 
+            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { break }
+            controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
+            controllersStore.append(controller)
+        }
     }
 }
 
@@ -47,7 +55,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
             return nil
         }
         if viewControllerIndex-1 < 0  {
-            return controllers.last
+            return nil
         }
         return controllers[viewControllerIndex-1]
     }
@@ -57,7 +65,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
             return nil
         }
         if viewControllerIndex+1 >= controllers.count {
-            return controllers.first
+            return nil
         }
         return controllers[viewControllerIndex+1]
     }
