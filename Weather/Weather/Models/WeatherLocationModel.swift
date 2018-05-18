@@ -16,20 +16,15 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherTenDays = [WeatherDay](repeating: WeatherDay(), count: 5)
     var city: String = ""
     let locationManager = CLLocationManager()
-    var latitude = 31.0 //TO DO
-    var longitude = -110.0 //TO DO
+    var delegateUpdate = {}
     
     override init() {
         super.init()
-        startReceivingLocationChanges()
     }
     
     func updateData(complete: @escaping ()->Void) {
-        getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
-            self.getWeatherOneDay(locationKey: locationKey, complete: complete)
-            self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
-            self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
-        })
+        delegateUpdate = complete
+        startReceivingLocationChanges()
     }
     
     private func getLocationKey(latitude: Double, longitude: Double, complete: @escaping (JSON)->Void) {
@@ -64,8 +59,14 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
 extension WeatherLocationModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let lastLocation = locations.last else { return }
-        latitude = lastLocation.coordinate.latitude
-        longitude = lastLocation.coordinate.longitude
+        let latitude = lastLocation.coordinate.latitude
+        let longitude = lastLocation.coordinate.longitude
+        
+        getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
+            self.getWeatherOneDay(locationKey: locationKey, complete: self.delegateUpdate)
+            self.getWeatherTwelveHours(locationKey: locationKey, complete: self.delegateUpdate)
+            self.getWeatherFiveDays(locationKey: locationKey, complete: self.delegateUpdate)
+        })
     }
 }
 
