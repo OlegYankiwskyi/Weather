@@ -22,6 +22,7 @@ class PageViewController: UIPageViewController {
             } else if controllersCount+1 == citiesCount {
                 guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return controllersStore }
                 controller.model = WeatherModelFactory.getModel(type: citiesModel.cities.last!)
+                controller.modelDelegate = citiesModel
                 controllersStore.append(controller)
                 return controllersStore
             } else {
@@ -41,8 +42,10 @@ class PageViewController: UIPageViewController {
     private func updateControllers() {
         controllersStore = []
         for i in 0..<citiesModel.cities.count {
+            
             guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { break }
             controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
+            controller.modelDelegate = citiesModel
             controllersStore.append(controller)
         }
         setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)

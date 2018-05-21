@@ -12,7 +12,7 @@ class CitiesModel: Request {
     private var arrayCities: [TypeModel] = [.location]
     var cities: [TypeModel] {
         get {
-            self.updateData()
+//            self.updateData()
             return arrayCities
         }
     }

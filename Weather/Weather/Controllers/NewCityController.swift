@@ -11,7 +11,7 @@ import UIKit
 class NewCityController: UIViewController {
 
     @IBOutlet weak var cityTextField: UITextField!
-    let citiesModel = CitiesModel()
+    var modelDelegate: CitiesModel!
     
     @IBAction func edit(_ sender: Any) {
         self.cityTextField.backgroundColor = .clear
@@ -22,11 +22,11 @@ class NewCityController: UIViewController {
             self.cityTextField.backgroundColor = .red
             return
         }
-        citiesModel.isValidCity(city: city, complete: { isValid, cityName in
+        modelDelegate.isValidCity(city: city, complete: { isValid, cityName in
             DispatchQueue.main.async {
                 if isValid {
 //                    self.cityTextField.backgroundColor = .green
-                    self.citiesModel.addCity(city: cityName)
+                    self.modelDelegate.addCity(city: cityName)
                     self.dismiss(animated: true)
                 } else {
                     self.cityTextField.backgroundColor = .red

@@ -11,6 +11,7 @@ import CoreLocation
 
 class WeatherCityController: UIViewController {
     var model: WeatherModelProtocol!
+    var modelDelegate: CitiesModel!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherTwelveHours: UICollectionView!
     @IBOutlet weak var temperatureMaxLabel: UILabel!
@@ -42,13 +43,12 @@ class WeatherCityController: UIViewController {
     
     @IBAction func addCityButtonTap(_ sender: Any) {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewCityController") as? NewCityController else { return }
+        controller.modelDelegate = modelDelegate
         self.present(controller, animated: true, completion: nil)
     }
     
     @IBAction func deleteCityButtonTap(_ sender: Any) {
-        let citiesModel = CitiesModel()
-        print("controller")
-        citiesModel.deleteCity(city: model.city)
+        modelDelegate.deleteCity(city: model.city)
     }
     
 }
