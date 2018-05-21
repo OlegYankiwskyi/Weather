@@ -7,15 +7,10 @@
 //
 
 import Foundation
+import CoreLocation
 
 class CitiesModel: Request {
-    private var arrayCities: [TypeModel] = [.location]
-    var cities: [TypeModel] {
-        get {
-//            self.updateData()
-            return arrayCities
-        }
-    }
+    var cities: [TypeModel] = []
     private let keyArray = "citiesArray"
     
     override init() {
@@ -38,18 +33,18 @@ class CitiesModel: Request {
     
     func deleteCity(city cityName: String) {
         if let index = cities.index(of: .city(name: cityName)) {
-            arrayCities.remove(at: index)
+            cities.remove(at: index)
             saveData()
         }
     }
     
     func addCity(city cityName: String) {
-        let isContains = arrayCities.contains { $0 == .city(name: cityName) }
+        let isContains = cities.contains { $0 == .city(name: cityName) }
     
         if isContains {
             return
         } else {
-            arrayCities.append(.city(name: cityName))
+            cities.append(.city(name: cityName))
             self.saveData()
         }
     }
@@ -57,8 +52,8 @@ class CitiesModel: Request {
     private func saveData() {
         let defaults = UserDefaults.standard
         var array: [String] = []
-        for i in 1..<arrayCities.count {
-            switch arrayCities[i] {
+        for i in 1..<cities.count {
+            switch cities[i] {
             case .city(let name):
                 array.append(name)
             default:
@@ -71,9 +66,14 @@ class CitiesModel: Request {
     private func updateData() {
         let defaults = UserDefaults.standard
         let myarray = defaults.stringArray(forKey: keyArray) ?? [String]()
-        arrayCities = [.location]
+
+        if CLLocationManager.locationServicesEnabled() {
+            cities = [.location]
+        } else {
+            cities = [.city(name: "New York")]
+        }
         for i in 0..<myarray.count {
-            arrayCities.append(.city(name: myarray[i]))
+            cities.append(.city(name: myarray[i]))
         }
     }
 }
