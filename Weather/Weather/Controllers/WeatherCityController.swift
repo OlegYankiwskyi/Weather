@@ -19,14 +19,17 @@ class WeatherCityController: UIViewController {
     @IBOutlet weak var dayWeatherLabel: UILabel!
     @IBOutlet weak var nightWeatherLabel: UILabel!
     @IBOutlet weak var weatherFiveDays: UITableView!
+    @IBOutlet weak var navigationBar: UINavigationItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
+        navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
         model.updateData {
             self.updateInterface()
         }
     }
-
+    
     func updateInterface() {
         DispatchQueue.main.async {
             guard let maxTemp = self.model.weatherDay.temperatureMax, let minTemp = self.model.weatherDay.temperatureMin,
@@ -41,13 +44,13 @@ class WeatherCityController: UIViewController {
         }
     }
     
-    @IBAction func addCityButtonTap(_ sender: Any) {
+    @objc func addCity() {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewCityController") as? NewCityController else { return }
         controller.modelDelegate = modelDelegate
         self.present(controller, animated: true, completion: nil)
     }
     
-    @IBAction func deleteCityButtonTap(_ sender: Any) {
+    @objc func deleteCity() {
         modelDelegate.deleteCity(city: model.city)
     }
     
