@@ -17,6 +17,7 @@ class PageViewController: UIPageViewController {
         get {
             let controllersCount = controllersStore.count
             let citiesCount = citiesModel.cities.count
+            
             if controllersCount == citiesCount {
                 return controllersStore
             } else if controllersCount+1 == citiesCount {
