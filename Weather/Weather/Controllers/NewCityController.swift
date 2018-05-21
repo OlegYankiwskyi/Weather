@@ -17,6 +17,22 @@ class NewCityController: UIViewController {
         self.cityTextField.backgroundColor = .clear
     }
     
+    @IBAction func editingDidEnd(_ sender: Any) {
+        guard let city = cityTextField.text else {
+            self.cityTextField.backgroundColor = .red
+            return
+        }
+        modelDelegate.isValidCity(city: city, complete: { isValid, cityName in
+            DispatchQueue.main.async {
+                if isValid {
+                    self.cityTextField.backgroundColor = .green
+                } else {
+                    self.cityTextField.backgroundColor = .red
+                }
+            }
+        })
+    }
+    
     @IBAction func tapButton(_ sender: Any) {
         guard let city = cityTextField.text else {
             self.cityTextField.backgroundColor = .red
@@ -25,7 +41,6 @@ class NewCityController: UIViewController {
         modelDelegate.isValidCity(city: city, complete: { isValid, cityName in
             DispatchQueue.main.async {
                 if isValid {
-//                    self.cityTextField.backgroundColor = .green
                     self.modelDelegate.addCity(city: cityName)
                     self.dismiss(animated: true)
                 } else {
