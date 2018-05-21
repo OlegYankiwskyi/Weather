@@ -11,66 +11,62 @@ import UIKit
 class PageViewController: UIPageViewController {
     
     var citiesModel = CitiesModel()
-    var controllersStore: [WeatherCityController] = []
-    
-    var controllers: [WeatherCityController] {
-        get {
-            let controllersCount = controllersStore.count
-            let citiesCount = citiesModel.cities.count
-            
-            if controllersCount == citiesCount {
-                return controllersStore
-            } else if controllersCount+1 == citiesCount {
-                guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return controllersStore }
-                controller.model = WeatherModelFactory.getModel(type: citiesModel.cities.last!)
-                controller.modelDelegate = citiesModel
-                controllersStore.append(controller)
-                return controllersStore
-            } else {
-                updateControllers()
-                return controllersStore
-            }
-        }
-    }
+    var models: [WeatherModelProtocol] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateControllers()
         self.delegate = self
         self.dataSource = self
+        setViewControllers([createController(index: 0)!], direction: .forward, animated: true, completion: nil)//TO DO : FORCE UNWRAP
     }
     
-    private func updateControllers() {
-        controllersStore = []
-        for i in 0..<citiesModel.cities.count {
-            
-            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { break }
-            controller.model = WeatherModelFactory.getModel(type: citiesModel.cities[i])
-            controller.modelDelegate = citiesModel
-            controllersStore.append(controller)
+    private func createController(index: Int) -> WeatherCityController? {
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return nil }
+        controller.modelDelegate = citiesModel
+        if models.indices.contains(index) {
+            controller.model = models[index]
+        } else {
+            models.append(WeatherModelFactory.getModel(type: citiesModel.cities[index]))
+            controller.model = models.last!
         }
-        setViewControllers([controllers[0]], direction: .forward, animated: true, completion: nil)
+        return controller
+    }
+    
+    private func getIndex(city: WeatherModelProtocol) -> Int? {
+        for i in 0..<citiesModel.cities.count {
+            switch citiesModel.cities[i] {
+            case .city(let name):
+                if name == city.city {
+                    return i
+                }
+            case .location:
+                if city as? WeatherLocationModel != nil {
+                    return i
+                }
+            }
+        }
+        return nil
     }
 }
 
-extension PageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource  {
+extension PageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let controller = viewController as? WeatherCityController, let viewControllerIndex = controllers.index(of: controller) else {
-            return nil
-        }
+        guard let controller = viewController as? WeatherCityController,
+            let viewControllerIndex = getIndex(city: controller.model)
+              else { return nil }
         if viewControllerIndex-1 < 0  {
             return nil
         }
-        return controllers[viewControllerIndex-1]
+        return createController(index: viewControllerIndex-1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let controller = viewController as? WeatherCityController, let viewControllerIndex = controllers.index(of: controller) else {
+        guard let controller = viewController as? WeatherCityController,
+            let viewControllerIndex = getIndex(city: controller.model)
+               else { return nil }
+        if viewControllerIndex+1 >= citiesModel.cities.count {
             return nil
         }
-        if viewControllerIndex+1 >= controllers.count {
-            return nil
-        }
-        return controllers[viewControllerIndex+1]
+        return createController(index: viewControllerIndex+1)
     }
 }

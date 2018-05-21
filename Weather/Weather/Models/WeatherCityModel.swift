@@ -10,22 +10,30 @@ import Foundation
 import SwiftyJSON
 
 class WeatherCityModel: WeatherModelProtocol {
-
-    var weatherDay = WeatherDay()
+    var weatherDay: WeatherDay?
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
-    var weatherTenDays = [WeatherDay](repeating: WeatherDay(), count: 5)
+    var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
     var city = String()
     
     init(city: String) {
         self.city = city
+        getLocationKey(city: city, complete: { locationKey in
+            self.getWeatherOneDay(locationKey: locationKey, complete: nil)
+            self.getWeatherTwelveHours(locationKey: locationKey, complete: nil)
+            self.getWeatherFiveDays(locationKey: locationKey, complete: nil)
+        })
     }
     
     func updateData(complete: @escaping ()->Void) {
-        getLocationKey(city: city, complete: { locationKey in
-            self.getWeatherOneDay(locationKey: locationKey, complete: complete)
-            self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
-            self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
-        })
+        if weatherDay != nil {
+            complete()
+        } else {
+            getLocationKey(city: city, complete: { locationKey in
+                self.getWeatherOneDay(locationKey: locationKey, complete: complete)
+                self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
+                self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
+            })
+        }
     }
     
     private func getLocationKey(city: String, complete: @escaping (JSON)->Void) {

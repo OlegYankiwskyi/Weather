@@ -11,20 +11,23 @@ import SwiftyJSON
 import MapKit
 
 class WeatherLocationModel: NSObject, WeatherModelProtocol {
-    var weatherDay = WeatherDay()
+    var weatherDay: WeatherDay?
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
-    var weatherTenDays = [WeatherDay](repeating: WeatherDay(), count: 5)
+    var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
     var city = String()
     let locationManager = CLLocationManager()
     var delegateUpdate = {}
     
     override init() {
         super.init()
+        startReceivingLocationChanges()
     }
     
     func updateData(complete: @escaping ()->Void) {
         delegateUpdate = complete
-        startReceivingLocationChanges()
+        if weatherDay != nil {
+            delegateUpdate()
+        }
     }
     
     private func getLocationKey(latitude: Double, longitude: Double, complete: @escaping (JSON)->Void) {

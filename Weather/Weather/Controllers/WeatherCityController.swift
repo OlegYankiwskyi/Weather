@@ -32,13 +32,19 @@ class WeatherCityController: UIViewController {
     
     func updateInterface() {
         DispatchQueue.main.async {
-            guard let maxTemp = self.model.weatherDay.temperatureMax, let minTemp = self.model.weatherDay.temperatureMin,
-                let nightWeather = self.model.weatherDay.nightDescription, let dayWeather = self.model.weatherDay.dayDescription else { return }
             self.cityLabel.text = self.model.city
-            self.temperatureMaxLabel.text = "Max = \(maxTemp)° C"
-            self.temperatureMinLabel.text = "Min = \(minTemp)° C"
-            self.dayWeatherLabel.text = "day: \(dayWeather)"
-            self.nightWeatherLabel.text = "night: \(nightWeather)"
+            if let maxTemp = self.model.weatherDay?.temperatureMax {
+                self.temperatureMaxLabel.text = "Max = \(maxTemp)° C"
+            }
+            if let minTemp = self.model.weatherDay?.temperatureMin {
+                self.temperatureMinLabel.text = "Min = \(minTemp)° C"
+            }
+            if let nightWeather = self.model.weatherDay?.nightDescription {
+                self.nightWeatherLabel.text = "night: \(nightWeather)"
+            }
+            if let dayWeather = self.model.weatherDay?.dayDescription {
+                self.dayWeatherLabel.text = "day: \(dayWeather)"
+            }
             self.weatherTwelveHours.reloadData()
             self.weatherFiveDays.reloadData()
         }
@@ -71,12 +77,12 @@ extension WeatherCityController: UICollectionViewDelegate, UICollectionViewDataS
 
 extension WeatherCityController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return model.weatherTenDays.count
+        return model.weatherFiveDays.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.reuseIdentifier, for: indexPath) as? CustomTableViewCell else { return UITableViewCell() }
-        cell.configure(data: model.weatherTenDays[indexPath.row])
+        cell.configure(data: model.weatherFiveDays[indexPath.row])
         return cell
     }
 }

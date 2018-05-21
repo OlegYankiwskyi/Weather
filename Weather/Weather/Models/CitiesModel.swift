@@ -52,7 +52,7 @@ class CitiesModel: Request {
     private func saveData() {
         let defaults = UserDefaults.standard
         var array: [String] = []
-        for i in 1..<cities.count {
+        for i in 0..<cities.count {
             switch cities[i] {
             case .city(let name):
                 array.append(name)
@@ -69,10 +69,11 @@ class CitiesModel: Request {
 
         if CLLocationManager.locationServicesEnabled() {
             cities = [.location]
-        } else {
+        } else if myarray.count == 0 {
             cities = [.city(name: "New York")]
         }
         for i in 0..<myarray.count {
+            print(myarray[i])
             cities.append(.city(name: myarray[i]))
         }
     }
