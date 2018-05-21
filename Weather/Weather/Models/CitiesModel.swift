@@ -37,8 +37,6 @@ class CitiesModel: Request {
     }
     
     func deleteCity(city cityName: String) {
-        print(cityName)
-        print(cities)
         if let index = cities.index(of: .city(name: cityName)) {
             arrayCities.remove(at: index)
             saveData()

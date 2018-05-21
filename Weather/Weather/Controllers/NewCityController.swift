@@ -25,7 +25,7 @@ class NewCityController: UIViewController {
         citiesModel.isValidCity(city: city, complete: { isValid, cityName in
             DispatchQueue.main.async {
                 if isValid {
-                    self.cityTextField.backgroundColor = .green
+//                    self.cityTextField.backgroundColor = .green
                     self.citiesModel.addCity(city: cityName)
                     self.dismiss(animated: true)
                 } else {
