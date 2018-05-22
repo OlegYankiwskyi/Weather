@@ -13,7 +13,7 @@ import MBProgressHUD
 class WeatherCityController: UIViewController {
     var model: WeatherModelProtocol!
     var modelDelegate: CitiesModel!
-    var hud: MBProgressHUD!
+    var hud: MBProgressHUD?
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherTwelveHours: UICollectionView!
     @IBOutlet weak var temperatureMaxLabel: UILabel!
@@ -25,9 +25,10 @@ class WeatherCityController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-        hud.mode = .indeterminate
-        
+        if model.weatherDay == nil {
+            hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud?.mode = .indeterminate
+        }
         navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
         navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
         navigationBar.rightBarButtonItem?.isEnabled = false
@@ -53,7 +54,7 @@ class WeatherCityController: UIViewController {
             }
             self.weatherTwelveHours.reloadData()
             self.weatherFiveDays.reloadData()
-            self.hud.hide(animated: true, afterDelay: 0.1)
+            self.hud?.hide(animated: true, afterDelay: 0.1)
         }
     }
     
