@@ -57,7 +57,7 @@ class CitiesModel: Request {
             case .city(let name):
                 array.append(name)
             default:
-                print("bad value")
+                break
             }
         }
         defaults.set(array, forKey: keyArray)
@@ -73,8 +73,10 @@ class CitiesModel: Request {
             cities = [.city(name: "New York")]
         }
         for i in 0..<myarray.count {
-            print(myarray[i])
             cities.append(.city(name: myarray[i]))
+        }
+        if cities.count == 1 {
+            cities.append(.city(name: "London"))
         }
     }
 }

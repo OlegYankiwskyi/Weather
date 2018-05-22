@@ -17,7 +17,8 @@ class PageViewController: UIPageViewController {
         super.viewDidLoad()
         self.delegate = self
         self.dataSource = self
-        setViewControllers([createController(index: 0)!], direction: .forward, animated: true, completion: nil)//TO DO : FORCE UNWRAP
+        guard let controller = createController(index: 0) else { return }
+        setViewControllers([controller], direction: .forward, animated: true, completion: nil)
     }
     
     private func createController(index: Int) -> WeatherCityController? {

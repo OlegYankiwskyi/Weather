@@ -25,6 +25,7 @@ class WeatherCityController: UIViewController {
         super.viewDidLoad()
         navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
         navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
+        navigationBar.rightBarButtonItem?.isEnabled = false
         model.updateData {
             self.updateInterface()
         }
