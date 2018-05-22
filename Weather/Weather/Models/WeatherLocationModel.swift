@@ -51,7 +51,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.distanceFilter = 100.0  
         
-        if CLLocationManager.locationServicesEnabled() {
+        if Location.isEnable() {
             locationManager.startUpdatingLocation()
         } else {
             print("Location Services not endabled")

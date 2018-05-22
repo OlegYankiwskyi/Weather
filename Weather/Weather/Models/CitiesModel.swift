@@ -67,19 +67,9 @@ class CitiesModel: Request {
         let defaults = UserDefaults.standard
         let myarray = defaults.stringArray(forKey: keyArray) ?? [String]()
 
-        if CLLocationManager.locationServicesEnabled() {
-            switch CLLocationManager.authorizationStatus() {
-            case .notDetermined, .restricted, .denied:
-                if myarray.count == 0 {
-                    cities = [.city(name: "New York")]
-                }
-            case .authorizedAlways, .authorizedWhenInUse:
-                cities = [.location]
-            }
-        } else if myarray.count == 0 {
-            cities = [.city(name: "New York")]
+        if Location.isEnable() {
+            cities = [.location]
         }
-        
         for i in 0..<myarray.count {
             cities.append(.city(name: myarray[i]))
         }

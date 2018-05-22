@@ -10,7 +10,7 @@ import Foundation
 import SwiftyJSON
 
 class Request {
-    static func request(url: String, complete: @escaping (JSON)->Void) { //TO DO : check internet connection
+    static func request(url: String, complete: @escaping (JSON)->Void) {
         guard let url = URL(string: url) else {
             print("Error create Url")
             return

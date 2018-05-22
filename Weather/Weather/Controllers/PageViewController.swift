@@ -28,7 +28,8 @@ class PageViewController: UIPageViewController {
             controller.model = models[index]
         } else {
             models.append(WeatherModelFactory.getModel(type: citiesModel.cities[index]))
-            controller.model = models.last!
+            guard let model = models.last else { return nil }
+            controller.model = model
         }
         return controller
     }
