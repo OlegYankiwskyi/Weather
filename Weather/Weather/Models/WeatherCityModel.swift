@@ -17,15 +17,10 @@ class WeatherCityModel: WeatherModelProtocol {
     
     init(city: String) {
         self.city = city
-        getLocationKey(city: city, complete: { locationKey in
-            self.getWeatherOneDay(locationKey: locationKey, complete: nil)
-            self.getWeatherTwelveHours(locationKey: locationKey, complete: nil)
-            self.getWeatherFiveDays(locationKey: locationKey, complete: nil)
-        })
     }
     
     func updateData(complete: @escaping ()->Void) {
-        if weatherDay != nil {
+        if isLoad {
             complete()
         } else {
             getLocationKey(city: city, complete: { locationKey in

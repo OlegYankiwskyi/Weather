@@ -25,7 +25,7 @@ class WeatherCityController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if model.weatherDay == nil {
+        if !model.isLoad {
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
         }

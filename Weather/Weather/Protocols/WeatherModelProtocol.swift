@@ -19,6 +19,24 @@ protocol WeatherModelProtocol: class {
 }
 
 extension WeatherModelProtocol {
+    var isLoad: Bool {
+        get {
+            if weatherDay == nil {
+                return false
+            }
+            for i in 0..<weatherTwelveHours.count {
+                if !weatherTwelveHours[i].isLoad {
+                    return false
+                }
+            }
+            for i in 0..<weatherFiveDays.count {
+                if !weatherFiveDays[i].isLoad {
+                    return false
+                }
+            }
+            return true
+        }
+    }
     func getWeatherOneDay(locationKey: JSON, complete: (()->Void)?) {
         let url = "https://dataservice.accuweather.com/forecasts/v1/daily/1day/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
         Request.request(url: url, complete: { data in

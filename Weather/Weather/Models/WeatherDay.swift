@@ -14,4 +14,5 @@ struct WeatherDay {
     var dayDescription: String?
     var temperatureMax: Int?
     var temperatureMin: Int?
+    var isLoad = false
 }

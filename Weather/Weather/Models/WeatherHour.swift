@@ -11,4 +11,12 @@ import Foundation
 struct WeatherHours {
     var temperature: Int?
     var time: String?
+    var isLoad = false
+    
+    init() {}
+
+    init(temperature: Int?, time: String?) {
+        self.temperature = temperature
+        self.time = time
+    }
 }

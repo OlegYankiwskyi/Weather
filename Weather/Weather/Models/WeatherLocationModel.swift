@@ -25,7 +25,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     
     func updateData(complete: @escaping ()->Void) {
         delegateUpdate = complete
-        if weatherDay != nil {
+        if isLoad {
             delegateUpdate()
         }
     }
