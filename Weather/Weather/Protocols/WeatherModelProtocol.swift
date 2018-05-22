@@ -45,6 +45,7 @@ extension WeatherModelProtocol {
             self.weatherDay?.temperatureMin = data["DailyForecasts"][0]["Temperature"]["Minimum"]["Value"].int
             self.weatherDay?.dayDescription = data["DailyForecasts"][0]["Day"]["IconPhrase"].string
             self.weatherDay?.nightDescription = data["DailyForecasts"][0]["Night"]["IconPhrase"].string
+            self.weatherDay?.isLoad = true
             complete?()
         })
     }
@@ -56,6 +57,7 @@ extension WeatherModelProtocol {
                 guard let temperature = data[i]["Temperature"]["Value"].int,
                     let time = data[i]["DateTime"].string else { return }
                 self.weatherTwelveHours[i] = WeatherHours(temperature: temperature, time: Parser.getTime(str: time))
+                self.weatherTwelveHours[i].isLoad = true
             }
             complete?()
         })
@@ -72,6 +74,7 @@ extension WeatherModelProtocol {
                 if let date = data["DailyForecasts"][i]["Date"].string {
                     self.weatherFiveDays[i].dayOfWeek = Parser.getDayOfWeek(date)
                 }
+                self.weatherFiveDays[i].isLoad = true
             }
             complete?()
         })

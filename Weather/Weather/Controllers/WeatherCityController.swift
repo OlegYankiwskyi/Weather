@@ -54,7 +54,9 @@ class WeatherCityController: UIViewController {
             }
             self.weatherTwelveHours.reloadData()
             self.weatherFiveDays.reloadData()
-            self.hud?.hide(animated: true, afterDelay: 0.1)
+            if self.model.isLoad {
+                self.hud?.hide(animated: true, afterDelay: 0.1)
+            }
         }
     }
     
