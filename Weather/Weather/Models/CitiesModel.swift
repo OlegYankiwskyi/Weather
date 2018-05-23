@@ -10,16 +10,23 @@ import Foundation
 import CoreLocation
 
 class CitiesModel: Request {
-    var cities: [TypeModel] = []
+    var cities: [TypeModel] = [] {
+        didSet {
+            updateView?()
+        }
+    }
+    var updateView: (()->Void)?
     private let keyArray = "citiesArray"
     
     override init() {
         super.init()
         self.updateData()
+//        self.saveData()
     }
     
     func isValidCity(city: String, complete: @escaping (Bool,String)->Void) {
-        let parcedCity = city.replacingOccurrences(of: " ", with: "%20")
+        var parcedCity = city.trimmingCharacters(in: .whitespacesAndNewlines)
+        parcedCity = parcedCity.replacingOccurrences(of: " ", with: "%20")
         let url = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=\(ApiKey.key)&q=\(parcedCity)"
         
         Request.request(url: url, complete: { data in
@@ -39,12 +46,13 @@ class CitiesModel: Request {
     }
     
     func addCity(city cityName: String) {
-        let isContains = cities.contains { $0 == .city(name: cityName) }
+        let parcedCity = cityName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let isContains = cities.contains { $0 == .city(name: parcedCity) }
     
         if isContains {
             return
         } else {
-            cities.append(.city(name: cityName))
+            cities.append(.city(name: parcedCity))
             self.saveData()
         }
     }
@@ -73,7 +81,7 @@ class CitiesModel: Request {
         for i in 0..<myarray.count {
             cities.append(.city(name: myarray[i]))
         }
-        if cities.count == 1 {
+        if cities.count == 0 {
             cities.append(.city(name: "London"))
         }
     }

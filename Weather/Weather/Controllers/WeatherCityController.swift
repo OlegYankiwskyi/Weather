@@ -26,6 +26,7 @@ class WeatherCityController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if !model.isLoad {
+//            view.isHidden = true
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
         }
@@ -57,6 +58,7 @@ class WeatherCityController: UIViewController {
             
             if self.model.isLoad {
                 self.hud?.hide(animated: true, afterDelay: 0.1)
+//                self.view.isHidden = false
             }
         }
     }

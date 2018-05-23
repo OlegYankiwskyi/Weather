@@ -11,25 +11,33 @@ import UIKit
 class PageViewController: UIPageViewController {
     
     var citiesModel = CitiesModel()
-    var models: [WeatherModelProtocol] = []
+    lazy var models = [WeatherModelProtocol?](repeating: nil, count: citiesModel.cities.count)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
         self.dataSource = self
+        citiesModel.updateView = updateData
+        
         guard let controller = createController(index: 0) else { return }
+        setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+    }
+    
+    func updateData() {
+        guard let city = self.citiesModel.cities.last else { return }
+        self.models.append(WeatherModelFactory.getModel(type: city))
+        guard let controller = createController(index: models.count-1) else { return }
         setViewControllers([controller], direction: .forward, animated: true, completion: nil)
     }
     
     private func createController(index: Int) -> WeatherCityController? {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return nil }
         controller.modelDelegate = citiesModel
-        if models.indices.contains(index) {
+        if models[index] != nil {
             controller.model = models[index]
         } else {
-            models.append(WeatherModelFactory.getModel(type: citiesModel.cities[index]))
-            guard let model = models.last else { return nil }
-            controller.model = model
+            models[index] = WeatherModelFactory.getModel(type: citiesModel.cities[index])
+            controller.model = models[index]
         }
         return controller
     }
