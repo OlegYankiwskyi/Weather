@@ -26,9 +26,10 @@ class WeatherCityController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if !model.isLoad {
-//            view.isHidden = true
+            isHiddenView(true)
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
+            hud?.detailsLabel.text = "Please wait"
         }
         navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
         navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
@@ -37,7 +38,7 @@ class WeatherCityController: UIViewController {
             self.updateInterface()
         }
     }
-    
+
     func updateInterface() {
         DispatchQueue.main.async {
             self.cityLabel.text = self.model.city
@@ -58,8 +59,14 @@ class WeatherCityController: UIViewController {
             
             if self.model.isLoad {
                 self.hud?.hide(animated: true, afterDelay: 0.1)
-//                self.view.isHidden = false
+                self.isHiddenView(false)
             }
+        }
+    }
+    
+    private func isHiddenView(_ value: Bool) {
+        for i in 0..<view.subviews.count {
+            view.subviews[i].isHidden = value
         }
     }
     
