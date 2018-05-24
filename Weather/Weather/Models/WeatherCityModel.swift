@@ -20,15 +20,11 @@ class WeatherCityModel: WeatherModelProtocol {
     }
     
     func updateData(complete: @escaping ()->Void) {
-        if isLoad {
-            complete()
-        } else {
-            getLocationKey(city: city, complete: { locationKey in
-                self.getWeatherOneDay(locationKey: locationKey, complete: complete)
-                self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
-                self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
-            })
-        }
+        getLocationKey(city: city, complete: { locationKey in
+            self.getWeatherOneDay(locationKey: locationKey, complete: complete)
+            self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
+            self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
+        })
     }
     
     private func getLocationKey(city: String, complete: @escaping (JSON)->Void) {

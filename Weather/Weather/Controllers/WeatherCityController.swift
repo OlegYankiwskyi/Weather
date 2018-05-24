@@ -11,9 +11,6 @@ import CoreLocation
 import MBProgressHUD
 
 class WeatherCityController: UIViewController {
-    var model: WeatherModelProtocol!
-    var modelDelegate: CitiesModel!
-    var hud: MBProgressHUD?
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var weatherTwelveHours: UICollectionView!
     @IBOutlet weak var temperatureMaxLabel: UILabel!
@@ -22,6 +19,18 @@ class WeatherCityController: UIViewController {
     @IBOutlet weak var nightWeatherLabel: UILabel!
     @IBOutlet weak var weatherFiveDays: UITableView!
     @IBOutlet weak var navigationBar: UINavigationItem!
+    @IBOutlet weak var scrollRefresh: UIScrollView!
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(handleRefresh(_:)),
+                                 for: UIControlEvents.valueChanged)
+        return refreshControl
+    }()
+    var model: WeatherModelProtocol!
+    var modelDelegate: CitiesModel!
+    var hud: MBProgressHUD?
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +40,7 @@ class WeatherCityController: UIViewController {
             hud?.mode = .indeterminate
             hud?.detailsLabel.text = "Please wait"
         }
+        self.scrollRefresh.addSubview(self.refreshControl)
         navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
         navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
         navigationBar.rightBarButtonItem?.isEnabled = false
@@ -67,6 +77,13 @@ class WeatherCityController: UIViewController {
     private func isHiddenView(_ value: Bool) {
         for i in 0..<view.subviews.count {
             view.subviews[i].isHidden = value
+        }
+    }
+    
+    @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
+        model.updateData {
+            self.updateInterface()
+            refreshControl.endRefreshing()
         }
     }
     

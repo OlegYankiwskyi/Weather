@@ -15,19 +15,19 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
     var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
     var city = String()
-    let locationManager = CLLocationManager()
+    lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.distanceFilter = 100.0
+        return locationManager
+    }()
     var delegateUpdate = {}
-    
-    override init() {
-        super.init()
-        startReceivingLocationChanges()
-    }
     
     func updateData(complete: @escaping ()->Void) {
         delegateUpdate = complete
-        if isLoad {
-            delegateUpdate()
-        }
+        updateLocation()
     }
     
     private func getLocationKey(latitude: Double, longitude: Double, complete: @escaping (JSON)->Void) {
@@ -45,12 +45,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
         })
     }
 
-    private func startReceivingLocationChanges() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.distanceFilter = 100.0  
-        
+    private func updateLocation() {
         if Location.isEnable() {
             locationManager.startUpdatingLocation()
         } else {
@@ -64,7 +59,7 @@ extension WeatherLocationModel: CLLocationManagerDelegate {
         guard let lastLocation = locations.last else { return }
         let latitude = lastLocation.coordinate.latitude
         let longitude = lastLocation.coordinate.longitude
-        
+
         getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
             self.getWeatherOneDay(locationKey: locationKey, complete: self.delegateUpdate)
             self.getWeatherTwelveHours(locationKey: locationKey, complete: self.delegateUpdate)
