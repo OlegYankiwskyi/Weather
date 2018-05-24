@@ -10,12 +10,7 @@ import Foundation
 import CoreLocation
 
 class CitiesModel: Request {
-    var cities: [TypeModel] = [] //{
-//        didSet {
-//            print(oldValue)
-//            updateView?()
-//        }
-//    }
+    var cities: [TypeModel] = [] 
     var updateView: ((TypeOperation)->Void)?
     private let keyArray = "citiesArray"
     

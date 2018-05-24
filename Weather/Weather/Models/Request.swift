@@ -16,7 +16,6 @@ class Request {
             return
         }
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            print("request")
             guard let httpResponse = response as? HTTPURLResponse else { return }
             if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
                 guard let data = data else { print("error"); return }

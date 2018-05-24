@@ -58,7 +58,6 @@ extension WeatherLocationModel: CLLocationManagerDelegate {
         let latitude = lastLocation.coordinate.latitude
         let longitude = lastLocation.coordinate.longitude
 
-        print("hello")
         getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
             self.getWeatherOneDay(locationKey: locationKey, complete: self.delegateUpdate)
             self.getWeatherTwelveHours(locationKey: locationKey, complete: self.delegateUpdate)

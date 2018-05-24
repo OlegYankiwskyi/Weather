@@ -28,7 +28,8 @@ class WeatherCityModel: WeatherModelProtocol {
     }
     
     private func getLocationKey(city: String, complete: @escaping (JSON)->Void) {
-        let parcedCity = city.replacingOccurrences(of: " ", with: "%20")
+        var parcedCity = city.trimmingCharacters(in: .whitespacesAndNewlines)
+        parcedCity = parcedCity.replacingOccurrences(of: " ", with: "%20")
 
         let url = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=\(ApiKey.key)&q=\(parcedCity)"
         Request.request(url: url, complete: { data in
