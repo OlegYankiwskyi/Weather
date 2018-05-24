@@ -17,7 +17,7 @@ class Request {
         }
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
             guard let httpResponse = response as? HTTPURLResponse else { return }
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
+            if 200 ... 299 ~= httpResponse.statusCode {
                 guard let data = data else { print("error"); return }
                 complete(JSON(data))
             } else {
@@ -27,3 +27,22 @@ class Request {
         task.resume()
     }
 }
+//class Request {
+//    static func request(url: String, complete: @escaping (JSON)->Void) {
+//        guard let url = URL(string: url) else { print("Error create Url"); return }
+//
+//        Alamofire.request(url)
+//            .validate(statusCode: 200..<300)
+//            .validate(contentType: ["application/json"])
+//            .responseData { response in
+//                switch response.result {
+//                case .success:
+//                    guard let data = response.data else { print("error"); return }
+//                    complete(JSON(data))
+//                case .failure(let error):
+//                    print("\(error.localizedDescription) , url = \(url)")
+//                }
+//        }
+//    }
+//}
+
