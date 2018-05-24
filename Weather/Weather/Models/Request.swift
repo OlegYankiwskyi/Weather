@@ -8,22 +8,24 @@
 
 import Foundation
 import SwiftyJSON
+import Alamofire
 
 class Request {
     static func request(url: String, complete: @escaping (JSON)->Void) {
-        guard let url = URL(string: url) else {
-            print("Error create Url")
-            return
+        guard let url = URL(string: url) else { print("Error create Url"); return }
+        
+        Alamofire.request(url)
+            .validate(statusCode: 200..<300)
+            .validate(contentType: ["application/json"])
+            .responseData { response in
+                switch response.result {
+                case .success:
+                    guard let data = response.data else { print("error"); return }
+                    complete(JSON(data))
+                case .failure(let error):
+                    print("\(error.localizedDescription) , url = \(url)")
+                }
         }
-        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
-            guard let httpResponse = response as? HTTPURLResponse else { return }
-            if httpResponse.statusCode >= 200 && httpResponse.statusCode < 300 {
-                guard let data = data else { print("error"); return }
-                complete(JSON(data))
-            } else {
-                print("error request , status code = \(httpResponse.statusCode) , url = \(url)")
-            }
-        }
-        task.resume()
     }
 }
+

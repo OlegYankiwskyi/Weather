@@ -8,4 +8,5 @@ target 'Weather' do
   # Pods for PhotoTagger
   pod 'SwiftyJSON', '~> 4.0.0'
   pod 'MBProgressHUD', '~> 1.1.0'
+  pod 'Alamofire', '~> 4.7'
 end
