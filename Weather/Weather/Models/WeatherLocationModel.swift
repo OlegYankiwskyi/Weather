@@ -15,14 +15,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
     var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
     var city = String()
-    lazy var locationManager: CLLocationManager = {
-        let locationManager = CLLocationManager()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
-        locationManager.distanceFilter = 100.0
-        return locationManager
-    }()
+    lazy var locationManager = CLLocationManager()
     var delegateUpdate = {}
     
     func updateData(complete: @escaping ()->Void) {
@@ -46,7 +39,12 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     }
 
     private func updateLocation() {
-        if Location.isEnable() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.distanceFilter = 100.0
+        
+        if Location.isEnabled() {
             locationManager.startUpdatingLocation()
         } else {
             print("Location Services not endabled")
@@ -60,6 +58,7 @@ extension WeatherLocationModel: CLLocationManagerDelegate {
         let latitude = lastLocation.coordinate.latitude
         let longitude = lastLocation.coordinate.longitude
 
+        print("hello")
         getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
             self.getWeatherOneDay(locationKey: locationKey, complete: self.delegateUpdate)
             self.getWeatherTwelveHours(locationKey: locationKey, complete: self.delegateUpdate)

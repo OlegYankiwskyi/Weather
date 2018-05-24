@@ -23,11 +23,18 @@ class PageViewController: UIPageViewController {
         setViewControllers([controller], direction: .forward, animated: true, completion: nil)
     }
     
-    func updateData() {
-        guard let city = self.citiesModel.cities.last else { return }
-        self.models.append(WeatherModelFactory.getModel(type: city))
-        guard let controller = createController(index: models.count-1) else { return }
-        setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+    func updateData(type: TypeOperation) {
+        switch type {
+        case .add:
+            guard let city = self.citiesModel.cities.last else { return }
+            self.models.append(WeatherModelFactory.getModel(type: city))
+            guard let controller = createController(index: models.count-1) else { return }
+            setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+        case .delete(let index):
+            self.models.remove(at: index)
+            guard let controller = createController(index: 0) else { return }
+            setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+        }
     }
     
     private func createController(index: Int) -> WeatherCityController? {
@@ -80,3 +87,4 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         return createController(index: viewControllerIndex+1)
     }
 }
+

@@ -34,42 +34,19 @@ class WeatherCityController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if !model.isLoad {
+        self.scrollRefresh.addSubview(self.refreshControl)
+        navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
+        navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
+        navigationBar.rightBarButtonItem?.tintColor = .red
+        if model.isLoad {
+            updateInterface()
+        } else {
             isHiddenView(true)
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
             hud?.detailsLabel.text = "Please wait"
-        }
-        self.scrollRefresh.addSubview(self.refreshControl)
-        navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
-        navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
-        navigationBar.rightBarButtonItem?.isEnabled = false
-        model.updateData {
-            self.updateInterface()
-        }
-    }
-
-    func updateInterface() {
-        DispatchQueue.main.async {
-            self.cityLabel.text = self.model.city
-            if let maxTemp = self.model.weatherDay?.temperatureMax {
-                self.temperatureMaxLabel.text = "Max = \(maxTemp)° C"
-            }
-            if let minTemp = self.model.weatherDay?.temperatureMin {
-                self.temperatureMinLabel.text = "Min = \(minTemp)° C"
-            }
-            if let nightWeather = self.model.weatherDay?.nightDescription {
-                self.nightWeatherLabel.text = "night: \(nightWeather)"
-            }
-            if let dayWeather = self.model.weatherDay?.dayDescription {
-                self.dayWeatherLabel.text = "day: \(dayWeather)"
-            }
-            self.weatherTwelveHours.reloadData()
-            self.weatherFiveDays.reloadData()
-            
-            if self.model.isLoad {
-                self.hud?.hide(animated: true, afterDelay: 0.1)
-                self.isHiddenView(false)
+            model.updateData {
+                self.updateInterface()
             }
         }
     }
@@ -94,9 +71,35 @@ class WeatherCityController: UIViewController {
     }
     
     @objc func deleteCity() {
-        modelDelegate.deleteCity(city: model.city)
+        if !modelDelegate.deleteCity(city: model.city) {
+            showAlert(title: "Error", message: "You can not delete this page")
+        }
     }
     
+    func updateInterface() {
+        DispatchQueue.main.async {
+            self.cityLabel.text = self.model.city
+            if let maxTemp = self.model.weatherDay?.temperatureMax {
+                self.temperatureMaxLabel.text = "Max = \(maxTemp)° C"
+            }
+            if let minTemp = self.model.weatherDay?.temperatureMin {
+                self.temperatureMinLabel.text = "Min = \(minTemp)° C"
+            }
+            if let nightWeather = self.model.weatherDay?.nightDescription {
+                self.nightWeatherLabel.text = "night: \(nightWeather)"
+            }
+            if let dayWeather = self.model.weatherDay?.dayDescription {
+                self.dayWeatherLabel.text = "day: \(dayWeather)"
+            }
+            self.weatherTwelveHours.reloadData()
+            self.weatherFiveDays.reloadData()
+            
+            if self.model.isLoad {
+                self.hud?.hide(animated: true, afterDelay: 0.1)
+                self.isHiddenView(false)
+            }
+        }
+    }
 }
 
 extension WeatherCityController: UICollectionViewDelegate, UICollectionViewDataSource {
@@ -123,6 +126,3 @@ extension WeatherCityController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
-
-
-

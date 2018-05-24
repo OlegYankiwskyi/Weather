@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 class Location  {
-    static func isEnable() -> Bool {
+    static func isEnabled() -> Bool {
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {
             case .notDetermined, .restricted, .denied:

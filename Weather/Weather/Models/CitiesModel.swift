@@ -10,17 +10,18 @@ import Foundation
 import CoreLocation
 
 class CitiesModel: Request {
-    var cities: [TypeModel] = [] {
-        didSet {
-            updateView?()
-        }
-    }
-    var updateView: (()->Void)?
+    var cities: [TypeModel] = [] //{
+//        didSet {
+//            print(oldValue)
+//            updateView?()
+//        }
+//    }
+    var updateView: ((TypeOperation)->Void)?
     private let keyArray = "citiesArray"
     
     override init() {
         super.init()
-        self.updateData()
+        self.uploadData()
 //        self.saveData()
     }
     
@@ -38,22 +39,29 @@ class CitiesModel: Request {
         })
     }
     
-    func deleteCity(city cityName: String) {
-        if let index = cities.index(of: .city(name: cityName)) {
+    func deleteCity(city cityName: String) -> Bool {
+        if cities.count <= 1 {
+            return false
+        } else if let index = cities.index(of: .city(name: cityName)) {
             cities.remove(at: index)
+            updateView?(.delete(index: index))
             saveData()
-        }
+            return true
+        } 
+        return false
     }
     
-    func addCity(city cityName: String) {
+    func addCity(city cityName: String) -> Bool {
         let parcedCity = cityName.trimmingCharacters(in: .whitespacesAndNewlines)
         let isContains = cities.contains { $0 == .city(name: parcedCity) }
     
         if isContains {
-            return
+            return false
         } else {
             cities.append(.city(name: parcedCity))
+            updateView?(.add)
             self.saveData()
+            return true
         }
     }
     
@@ -71,11 +79,11 @@ class CitiesModel: Request {
         defaults.set(array, forKey: keyArray)
     }
     
-    private func updateData() {
+    private func uploadData() {
         let defaults = UserDefaults.standard
         let myarray = defaults.stringArray(forKey: keyArray) ?? [String]()
 
-        if Location.isEnable() {
+        if Location.isEnabled() {
             cities = [.location]
         }
         for i in 0..<myarray.count {
