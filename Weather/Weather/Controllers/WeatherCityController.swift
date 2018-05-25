@@ -40,7 +40,7 @@ class WeatherCityController: UIViewController {
         navigationBar.rightBarButtonItem?.tintColor = .red
         if model.isLoad {
             updateInterface()
-        } else {
+        } else if Reachability.isConnectedToNetwork() {
             isHiddenView(true)
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
@@ -48,6 +48,8 @@ class WeatherCityController: UIViewController {
             model.updateData {
                 self.updateInterface()
             }
+        } else {
+            self.showAlert(title: "error", message: "Internet connection")
         }
     }
     
@@ -58,9 +60,13 @@ class WeatherCityController: UIViewController {
     }
     
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
-        model.updateData {
-            self.updateInterface()
-            refreshControl.endRefreshing()
+        if Reachability.isConnectedToNetwork() {
+            model.updateData {
+                self.updateInterface()
+                refreshControl.endRefreshing()
+            }
+        } else {
+            self.showAlert(title: "error", message: "Internet connection")
         }
     }
     
