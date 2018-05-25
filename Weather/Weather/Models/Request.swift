@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftyJSON
-import Alamofire
 
 class Request {
     static func request(url: String, complete: @escaping (JSON)->Void) {
@@ -28,4 +27,5 @@ class Request {
         }
     }
 }
+
 
