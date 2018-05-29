@@ -34,23 +34,23 @@ class WeatherCityController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.scrollRefresh.addSubview(self.refreshControl)
+        self.scrollRefresh.addSubview(self.refreshControl)
         navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
         navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
         navigationBar.rightBarButtonItem?.tintColor = .red
-//        if model.isLoad {
-//            updateInterface()
-//        } else if Reachability.isConnectedToNetwork() {
-//            isHiddenView(true)
-//            hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-//            hud?.mode = .indeterminate
-//            hud?.detailsLabel.text = "Please wait"
-//            model.updateData {
-//                self.updateInterface()
-//            }
-//        } else {
-//            self.showAlert(title: "error", message: "Internet connection")
-//        }
+        if model.isLoad {
+            updateInterface()
+        } else if Reachability.isConnectedToNetwork() {
+            isHiddenView(true)
+            hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud?.mode = .indeterminate
+            hud?.detailsLabel.text = "Please wait"
+            model.updateData {
+                self.updateInterface()
+            }
+        } else {
+            self.showAlert(title: "error", message: "Internet connection")
+        }
     }
     
     private func isHiddenView(_ value: Bool) {
