@@ -25,7 +25,7 @@ class PageViewController: UIPageViewController {
     
     func updateData(type: TypeOperation) {
         switch type {
-        case .add:
+        case .append:
             guard let city = self.citiesModel.cities.last else { return }
             self.models.append(WeatherModelFactory.getModel(type: city))
             guard let controller = createController(index: models.count-1) else { return }

@@ -9,6 +9,6 @@
 import Foundation
 
 enum TypeOperation {
-    case add
+    case append
     case delete(index: Int)
 }

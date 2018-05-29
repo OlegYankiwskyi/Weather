@@ -31,7 +31,9 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
                 print("locationKey is null")
                 return
             }
-            if let city = data["AdministrativeArea"]["EnglishName"].string {
+            if let city = data["ParentCity"]["EnglishName"].string {
+                self.city = city
+            } else if let city = data["AdministrativeArea"]["EnglishName"].string {
                 self.city = city
             }
             complete(locationKey)

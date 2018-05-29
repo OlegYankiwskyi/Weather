@@ -33,7 +33,7 @@ class NewCityController: UIViewController {
         })
     }
     
-    @IBAction func tapButton(_ sender: Any) {
+    @IBAction func tapAddCityButton(_ sender: Any) {
         guard let city = cityTextField.text else {
             self.cityTextField.backgroundColor = .red
             return
@@ -55,6 +55,12 @@ class NewCityController: UIViewController {
     
     @IBAction func tapBackButton(_ sender: Any) {
         self.dismiss(animated: true)
+    }
+    
+    @IBAction func tapMapButton(_ sender: Any) {
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MapController.reuseIdentifier) as? MapController else { return }
+        controller.modelDelegate = modelDelegate
+        self.present(controller, animated: true, completion: nil)
     }
 }
 
