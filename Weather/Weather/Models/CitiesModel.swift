@@ -34,7 +34,7 @@ class CitiesModel: Request {
         })
     }
     
-    func isValidCity(longitude: Double,latitude: Double, complete: @escaping (Bool,String)->Void) {
+    func isValidCity(longitude: Double, latitude: Double, complete: @escaping (Bool,String)->Void) {
         let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(ApiKey.key)&q=\(latitude)%2C\(longitude)"
 
         Request.request(url: url, complete: { data in

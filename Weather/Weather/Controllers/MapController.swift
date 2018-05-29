@@ -14,8 +14,6 @@ class MapController: UIViewController {
     var annotation: MKAnnotation!
     var localSearchRequest: MKLocalSearchRequest!
     var localSearch: MKLocalSearch!
-    var localSearchResponse: MKLocalSearchResponse!
-    var error: NSError!
     var pointAnnotation: MKPointAnnotation!
     var pinAnnotationView: MKPinAnnotationView!
     var modelDelegate: CitiesModel!
@@ -26,12 +24,10 @@ class MapController: UIViewController {
         modelDelegate.isValidCity(longitude: mapView.centerCoordinate.longitude, latitude: mapView.centerCoordinate.latitude) { isValid, city in
             DispatchQueue.main.async {
                 if isValid {
-                    if self.modelDelegate.addCity(city: city) {
-                        self.showAlert(title: "Good", message: city) {
-                            self.dismiss(animated: true)
+                    self.showСonfirmAlert(title: city, message: "Would you like to add this city ?") {
+                        if !self.modelDelegate.addCity(city: city) {
+                            self.showAlert(title: "Complete", message: "We added \(city)")
                         }
-                    } else {
-                        self.showAlert(title: "Error", message: "We can not add this place")
                     }
                 } else {
                     self.showAlert(title: "Error", message: "This city is not valid")
@@ -64,9 +60,6 @@ extension MapController: UISearchBarDelegate {
         localSearch.start { (localSearchResponse, error) -> Void in
 
             if localSearchResponse == nil {
-//                let alertController = UIAlertController(title: nil, message: "Place Not Found", preferredStyle: UIAlertControllerStyle.alert)
-//                alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default, handler: nil))
-//                self.present(alertController, animated: true, completion: nil)
                 self.showAlert(title: "Error", message: "Place Not Found")
                 return
             }

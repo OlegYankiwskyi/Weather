@@ -20,12 +20,21 @@ extension UIViewController {
 }
 
 extension UIViewController {
-    func showAlert(title: String, message: String, handler: (()->Void)? = nil) {
+    func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: { _ in
-            handler?()
-        }))
+        alert.addAction(UIAlertAction(title: "ok", style: .cancel))
         
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension UIViewController {
+    func showСonfirmAlert(title: String, message: String, handler: @escaping ()->Void) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
+            handler()
+        })
         
         self.present(alert, animated: true, completion: nil)
     }
