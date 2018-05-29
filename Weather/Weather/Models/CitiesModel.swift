@@ -34,6 +34,20 @@ class CitiesModel: Request {
         })
     }
     
+    func isValidCity(longitude: Double, latitude: Double, complete: @escaping (Bool,String)->Void) {
+        let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(ApiKey.key)&q=\(latitude)%2C\(longitude)"
+
+        Request.request(url: url, complete: { data in
+            if let city = data["ParentCity"]["EnglishName"].string {
+                complete(true, city)
+            } else if let city = data["EnglishName"].string {
+                complete(true, city)
+            } else {
+                complete(false, "")
+            }
+        })
+    }
+    
     func deleteCity(city cityName: String) -> Bool {
         if cities.count <= 1 {
             return false
@@ -54,7 +68,7 @@ class CitiesModel: Request {
             return false
         } else {
             cities.append(.city(name: parcedCity))
-            updateView?(.add)
+            updateView?(.append)
             self.saveData()
             return true
         }
@@ -82,6 +96,7 @@ class CitiesModel: Request {
             cities = [.location]
         }
         for i in 0..<myarray.count {
+            print(myarray[i])
             cities.append(.city(name: myarray[i]))
         }
         if cities.count == 0 {

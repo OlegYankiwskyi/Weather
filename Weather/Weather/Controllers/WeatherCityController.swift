@@ -71,7 +71,7 @@ class WeatherCityController: UIViewController {
     }
     
     @objc func addCity() {
-        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NewCityController") as? NewCityController else { return }
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
         controller.modelDelegate = modelDelegate
         self.present(controller, animated: true, completion: nil)
     }
