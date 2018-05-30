@@ -16,10 +16,10 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
     var city: String!
     lazy var locationManager = CLLocationManager()
-    var delegateUpdate: (()->Void)?
+    var callback: (()->Void)?
     
     func updateData(completion: @escaping ()->Void) {
-        delegateUpdate = completion
+        callback = completion
         updateLocation()
     }
     
@@ -61,9 +61,9 @@ extension WeatherLocationModel: CLLocationManagerDelegate {
         let longitude = lastLocation.coordinate.longitude
 
         getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
-            self.getWeatherOneDay(locationKey: locationKey, completion: self.delegateUpdate)
-            self.getWeatherTwelveHours(locationKey: locationKey, completion: self.delegateUpdate)
-            self.getWeatherFiveDays(locationKey: locationKey, completion: self.delegateUpdate)
+            self.getWeatherOneDay(locationKey: locationKey, completion: self.callback)
+            self.getWeatherTwelveHours(locationKey: locationKey, completion: self.callback)
+            self.getWeatherFiveDays(locationKey: locationKey, completion: self.callback)
         })
     }
 }

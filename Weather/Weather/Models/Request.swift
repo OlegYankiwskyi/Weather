@@ -10,9 +10,9 @@ import Foundation
 import SwiftyJSON
 
 class Request {
-    static func request(url: String, complete: @escaping (JSON)->Void) {
-        guard let url = URL(string: url) else {
-            print("Error create Url")
+    static func request(url urlString: String, complete: @escaping (JSON)->Void) {
+        guard let url = URL(string: urlString) else {
+            print("Error create Url, url = \(urlString)")
             return
         }
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in

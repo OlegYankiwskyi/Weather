@@ -54,9 +54,7 @@ class WeatherCityController: UIViewController {
     }
     
     @IBAction func tapDeleteButton(_ sender: Any) {
-        if !modelDelegate.deleteCity(city: model.city) {
-            showAlert(title: "Error", message: "You can not delete this page")
-        }
+        modelDelegate.deleteCity(city: model.city)
     }
     
     @IBAction func tapAddButton(_ sender: Any) {
