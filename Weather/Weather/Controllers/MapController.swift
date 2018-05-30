@@ -42,6 +42,10 @@ class MapController: UIViewController {
         self.searchController.searchBar.delegate = self
         present(searchController, animated: true, completion: nil)
     }
+    
+    @IBAction func tapCancelButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
 }
 
 extension MapController: UISearchBarDelegate {
