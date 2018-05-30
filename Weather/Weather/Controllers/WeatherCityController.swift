@@ -53,12 +53,12 @@ class WeatherCityController: UIViewController {
         view.subviews.forEach { $0.isHidden = hidden }
     }
     
-    @IBAction func tapDeleteButton(_ sender: Any) {
+    func delete() {
         modelDelegate.deleteCity(city: model.city)
     }
     
-    @IBAction func tapAddButton(_ sender: Any) {
-        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MapController.reuseIdentifier) as? MapController else { return }
+    func add() {
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
         controller.modelDelegate = modelDelegate
         self.present(controller, animated: true, completion: nil)
     }
