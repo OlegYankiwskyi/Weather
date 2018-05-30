@@ -30,7 +30,7 @@ extension WeatherModelProtocol {
                 }
             }
             for i in 0..<weatherFiveDays.count {
-                if !weatherFiveDays[i].isLoad {
+                if !weatherFiveDays[i].isLoaded {
                     return false
                 }
             }
@@ -45,7 +45,7 @@ extension WeatherModelProtocol {
             self.weatherDay?.temperatureMin = data["DailyForecasts"][0]["Temperature"]["Minimum"]["Value"].int
             self.weatherDay?.dayDescription = data["DailyForecasts"][0]["Day"]["IconPhrase"].string
             self.weatherDay?.nightDescription = data["DailyForecasts"][0]["Night"]["IconPhrase"].string
-            self.weatherDay?.isLoad = true
+            self.weatherDay?.isLoaded = true
             completion?()
         })
     }
@@ -74,7 +74,7 @@ extension WeatherModelProtocol {
                 if let date = data["DailyForecasts"][i]["Date"].string {
                     self.weatherFiveDays[i].dayOfWeek = Parser.getDayOfWeek(date)
                 }
-                self.weatherFiveDays[i].isLoad = true
+                self.weatherFiveDays[i].isLoaded = true
             }
             completion?()
         })

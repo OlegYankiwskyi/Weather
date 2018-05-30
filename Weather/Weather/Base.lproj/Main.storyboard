@@ -255,7 +255,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QED-JV-NKe">
-                                <rect key="frame" x="50" y="438" width="220" height="30"/>
+                                <rect key="frame" x="20" y="231" width="280" height="30"/>
                                 <state key="normal" title="Add City"/>
                                 <connections>
                                     <action selector="tapAddCityButton:" destination="NIA-iK-csu" eventType="touchUpInside" id="SMp-gB-OuR"/>
@@ -279,14 +279,14 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aoE-Gi-WJj">
-                                <rect key="frame" x="50" y="518" width="220" height="30"/>
+                                <rect key="frame" x="20" y="276" width="280" height="30"/>
                                 <state key="normal" title="Back"/>
                                 <connections>
                                     <action selector="tapBackButton:" destination="NIA-iK-csu" eventType="touchUpInside" id="y5R-hj-oaA"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rrb-gv-B5H">
-                                <rect key="frame" x="20" y="378" width="280" height="30"/>
+                                <rect key="frame" x="20" y="186" width="280" height="30"/>
                                 <state key="normal" title="Map"/>
                                 <connections>
                                     <action selector="tapMapButton:" destination="NIA-iK-csu" eventType="touchUpInside" id="ZL5-v2-9WG"/>
@@ -295,21 +295,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="aoE-Gi-WJj" secondAttribute="trailing" constant="50" id="3Cb-bL-fmW"/>
+                            <constraint firstItem="rrb-gv-B5H" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="20" id="0ln-tI-QC1"/>
+                            <constraint firstItem="QED-JV-NKe" firstAttribute="top" secondItem="rrb-gv-B5H" secondAttribute="bottom" constant="15" id="4yg-m0-GvL"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="rrb-gv-B5H" secondAttribute="trailing" constant="20" id="A8e-uL-HkH"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="aoE-Gi-WJj" secondAttribute="trailing" constant="20" id="A8u-ci-UnT"/>
                             <constraint firstItem="aVW-yO-z3i" firstAttribute="top" secondItem="vNB-Nw-VpN" secondAttribute="top" constant="50" id="CJr-mU-2fK"/>
                             <constraint firstItem="rzV-QJ-EGu" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="50" id="Ddg-tg-fNV"/>
                             <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="aVW-yO-z3i" secondAttribute="trailing" constant="10" id="HSR-eF-JtK"/>
-                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="rrb-gv-B5H" secondAttribute="trailing" constant="20" id="Icq-Dy-IzR"/>
-                            <constraint firstItem="rrb-gv-B5H" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="20" id="K1U-Uk-3bX"/>
-                            <constraint firstItem="aoE-Gi-WJj" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="50" id="dut-zZ-5gb"/>
-                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="bottom" secondItem="QED-JV-NKe" secondAttribute="bottom" constant="100" id="gAl-Ci-3Gb"/>
+                            <constraint firstItem="rrb-gv-B5H" firstAttribute="top" secondItem="rzV-QJ-EGu" secondAttribute="bottom" constant="15" id="N6y-NU-RQf"/>
+                            <constraint firstItem="aoE-Gi-WJj" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="20" id="NzJ-HX-oy0"/>
+                            <constraint firstItem="QED-JV-NKe" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="20" id="ax2-tu-arA"/>
+                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="QED-JV-NKe" secondAttribute="trailing" constant="20" id="gzK-KB-nYD"/>
                             <constraint firstItem="aVW-yO-z3i" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="10" id="hC5-wT-ey9"/>
                             <constraint firstItem="rzV-QJ-EGu" firstAttribute="top" secondItem="aVW-yO-z3i" secondAttribute="bottom" constant="50" id="hFB-FS-IcA"/>
-                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="bottom" secondItem="aoE-Gi-WJj" secondAttribute="bottom" constant="20" id="i2Z-t3-OpM"/>
-                            <constraint firstItem="QED-JV-NKe" firstAttribute="top" secondItem="rrb-gv-B5H" secondAttribute="bottom" constant="30" id="iFq-H6-ewl"/>
+                            <constraint firstItem="aoE-Gi-WJj" firstAttribute="top" secondItem="QED-JV-NKe" secondAttribute="bottom" constant="15" id="jJd-xZ-CMy"/>
                             <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="rzV-QJ-EGu" secondAttribute="trailing" constant="50" id="l0k-ns-4FQ"/>
-                            <constraint firstItem="QED-JV-NKe" firstAttribute="leading" secondItem="vNB-Nw-VpN" secondAttribute="leading" constant="50" id="lDn-mi-Qsi"/>
-                            <constraint firstItem="vNB-Nw-VpN" firstAttribute="trailing" secondItem="QED-JV-NKe" secondAttribute="trailing" constant="50" id="sBt-Yy-JjI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vNB-Nw-VpN"/>
                     </view>
