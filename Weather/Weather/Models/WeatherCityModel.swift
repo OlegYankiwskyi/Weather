@@ -13,17 +13,17 @@ class WeatherCityModel: WeatherModelProtocol {
     var weatherDay: WeatherDay?
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
     var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
-    var city = String()
+    var city: String!
     
     init(city: String) {
         self.city = city
     }
     
-    func updateData(complete: @escaping ()->Void) {
+    func updateData(completion: @escaping ()->Void) {
         getLocationKey(city: city, complete: { locationKey in
-            self.getWeatherOneDay(locationKey: locationKey, complete: complete)
-            self.getWeatherTwelveHours(locationKey: locationKey, complete: complete)
-            self.getWeatherFiveDays(locationKey: locationKey, complete: complete)
+            self.getWeatherOneDay(locationKey: locationKey, completion: completion)
+            self.getWeatherTwelveHours(locationKey: locationKey, completion: completion)
+            self.getWeatherFiveDays(locationKey: locationKey, completion: completion)
         })
     }
     

@@ -1,72 +1,112 @@
 //
-//  NewCityController.swift
+//  MapController.swift
 //  Weather
 //
-//  Created by Oleg Yankiwskyi on 5/16/18.
+//  Created by Oleg Yankiwskyi on 5/25/18.
 //  Copyright © 2018 Oleg Yankiwskyi. All rights reserved.
 //
 
 import UIKit
+import MapKit
 
 class NewCityController: UIViewController {
-
-    @IBOutlet weak var cityTextField: UITextField!
+    var searchController: UISearchController!
+    var annotation: MKAnnotation!
+    var localSearchRequest: MKLocalSearchRequest!
+    var localSearch: MKLocalSearch!
+    var pointAnnotation: MKPointAnnotation!
+    var pinAnnotationView: MKPinAnnotationView!
     var modelDelegate: CitiesModel!
+    @IBOutlet weak var mapView: MKMapView!
     
-    @IBAction func edit(_ sender: Any) {
-        self.cityTextField.backgroundColor = .clear
-    }
-    
-    @IBAction func editingDidEnd(_ sender: Any) {
-        guard let city = cityTextField.text else {
-            self.cityTextField.backgroundColor = .red
+    @IBAction func tapDoneButton(_ sender: Any) {
+        guard let annotation = pointAnnotation else  {
+            showAlert(title: "Error", message: "Please choose a city")
             return
         }
-        modelDelegate.isValidCity(city: city, complete: { isValid, cityName in
+        
+        modelDelegate.isValidCity(longitude: annotation.coordinate.longitude, latitude: annotation.coordinate.latitude) { isValid, city in
             DispatchQueue.main.async {
                 if isValid {
-                    self.cityTextField.backgroundColor = .green
-                } else {
-                    self.cityTextField.backgroundColor = .red
-                }
-            }
-        })
-    }
-    
-    @IBAction func tapAddCityButton(_ sender: Any) {
-        guard let city = cityTextField.text else {
-            self.cityTextField.backgroundColor = .red
-            return
-        }
-        modelDelegate.isValidCity(city: city, complete: { isValid, cityName in
-            DispatchQueue.main.async {
-                if isValid {
-                    if self.modelDelegate.addCity(city: cityName) {
-                        self.dismiss(animated: true)
-                    } else {
-                        self.cityTextField.backgroundColor = .red
+                    self.showСonfirmAlert(title: city, message: "Would you like to add this city ?") {
+                        if self.modelDelegate.addCity(city: city) {
+                            self.dismiss(animated: true, completion: nil)
+                        } else {
+                            self.showAlert(title: "Error", message: "We can not add \(city)")
+                        }
                     }
                 } else {
-                    self.cityTextField.backgroundColor = .red
+                    self.showAlert(title: "Error", message: "This city is not valid")
                 }
             }
-        })
+        }
     }
     
-    @IBAction func tapBackButton(_ sender: Any) {
-        self.dismiss(animated: true)
+    @IBAction func showSearchBar(_ sender: Any) {
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.hidesNavigationBarDuringPresentation = false
+        self.searchController.searchBar.delegate = self
+        present(searchController, animated: true, completion: nil)
     }
     
-    @IBAction func tapMapButton(_ sender: Any) {
-        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MapController.reuseIdentifier) as? MapController else { return }
-        controller.modelDelegate = modelDelegate
-        self.present(controller, animated: true, completion: nil)
+    @IBAction func tapCancelButton(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let touchPoint = touch.location(in: self.mapView)
+            let location = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
+            self.pointAnnotation = MKPointAnnotation()
+            pointAnnotation.coordinate = location
+            removeAnnotations()
+            mapView.addAnnotation(pointAnnotation)
+        }
+    }
+    
+    private func removeAnnotations() {
+        mapView.annotations.forEach { annotation in
+            mapView.removeAnnotation(annotation)
+        }
     }
 }
 
-extension NewCityController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ scoreText: UITextField) -> Bool {
-        self.view.endEditing(true)
-        return true
+extension NewCityController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
+        
+        if self.mapView.annotations.count != 0 {
+            annotation = self.mapView.annotations[0]
+            self.mapView.removeAnnotation(annotation)
+        }
+        
+        localSearchRequest = MKLocalSearchRequest()
+        localSearchRequest.naturalLanguageQuery = searchBar.text
+        localSearch = MKLocalSearch(request: localSearchRequest)
+        localSearch.start { (localSearchResponse, error) -> Void in
+
+            if localSearchResponse == nil {
+                self.showAlert(title: "Error", message: "Place Not Found")
+                return
+            }
+
+            self.pointAnnotation = MKPointAnnotation()
+            self.pointAnnotation.title = searchBar.text
+            self.pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: localSearchResponse!.boundingRegion.center.latitude, longitude: localSearchResponse!.boundingRegion.center.longitude)
+
+
+            self.pinAnnotationView = MKPinAnnotationView(annotation: self.pointAnnotation, reuseIdentifier: nil)
+            self.mapView.centerCoordinate = self.pointAnnotation.coordinate
+            self.mapView.addAnnotation(self.pinAnnotationView.annotation!)
+        }
     }
 }
+
+
+
+
+
+
+
+

@@ -12,7 +12,7 @@ import CoreLocation
 class CitiesModel: Request {
     var cities: [TypeModel] = [] 
     var updateView: ((TypeOperation)->Void)?
-    private let keyArray = "citiesArray"
+    private let keyCoreLocation = "citiesCoreLocation"
     
     override init() {
         super.init()
@@ -48,16 +48,16 @@ class CitiesModel: Request {
         })
     }
     
-    func deleteCity(city cityName: String) -> Bool {
-        if cities.count <= 1 {
-            return false
-        } else if let index = cities.index(of: .city(name: cityName)) {
+    func deleteCity(city cityName: String) {
+
+        if let index = cities.index(of: .city(name: cityName)) {
             cities.remove(at: index)
             updateView?(.delete(index: index))
-            saveData()
-            return true
-        } 
-        return false
+        } else if cities.indices.contains(0) {
+            cities.remove(at: 0)
+            updateView?(.delete(index: 0))
+        }
+        saveData()
     }
     
     func addCity(city cityName: String) -> Bool {
@@ -68,8 +68,8 @@ class CitiesModel: Request {
             return false
         } else {
             cities.append(.city(name: parcedCity))
-            updateView?(.append)
             self.saveData()
+            updateView?(.append)
             return true
         }
     }
@@ -85,22 +85,18 @@ class CitiesModel: Request {
                 break
             }
         }
-        defaults.set(array, forKey: keyArray)
+        defaults.set(array, forKey: keyCoreLocation)
     }
     
     private func uploadData() {
         let defaults = UserDefaults.standard
-        let myarray = defaults.stringArray(forKey: keyArray) ?? [String]()
+        let myarray = defaults.stringArray(forKey: keyCoreLocation) ?? [String]()
 
         if Location.isEnabled() {
             cities = [.location]
         }
         for i in 0..<myarray.count {
-            print(myarray[i])
             cities.append(.city(name: myarray[i]))
-        }
-        if cities.count == 0 {
-            cities.append(.city(name: "London"))
         }
     }
 }
