@@ -58,7 +58,7 @@ class WeatherCityController: UIViewController {
     }
     
     @IBAction func tapAddButton(_ sender: Any) {
-        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MapController.reuseIdentifier) as? MapController else { return }
         controller.modelDelegate = modelDelegate
         self.present(controller, animated: true, completion: nil)
     }

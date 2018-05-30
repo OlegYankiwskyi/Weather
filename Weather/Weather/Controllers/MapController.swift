@@ -25,8 +25,8 @@ class MapController: UIViewController {
             DispatchQueue.main.async {
                 if isValid {
                     self.showСonfirmAlert(title: city, message: "Would you like to add this city ?") {
-                        if self.modelDelegate.addCity(city: city) {
-                            self.showAlert(title: "Complete", message: "We added \(city)")
+                        if !self.modelDelegate.addCity(city: city) {
+                            self.showAlert(title: "Error", message: "We can not add \(city)")
                         }
                     }
                 } else {

@@ -30,12 +30,13 @@ class PageViewController: UIPageViewController {
             self.models.append(WeatherModelFactory.getModel(type: city))
             guard let controller = createController(index: models.count-1) else { return }
             setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+            
         case .delete(let index):
             self.models.remove(at: index)
             if let controller = createController(index: 0) {
                 setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             } else {
-                guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
+                guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MapController.reuseIdentifier) as? MapController else { return }
                 controller.modelDelegate = citiesModel
                 setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             }
@@ -46,7 +47,7 @@ class PageViewController: UIPageViewController {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return nil }
         controller.modelDelegate = citiesModel
         if !models.indices.contains(0) {
-            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return nil }
+            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: MapController.reuseIdentifier) as? MapController else { return nil }
             controller.modelDelegate = citiesModel
             return controller
         } else if models[index] != nil {

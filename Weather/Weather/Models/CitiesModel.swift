@@ -92,15 +92,12 @@ class CitiesModel: Request {
         let defaults = UserDefaults.standard
         let myarray = defaults.stringArray(forKey: keyCoreLocation) ?? [String]()
 
-//        if Location.isEnabled() {
-//            cities = [.location]
-//        }
+        if Location.isEnabled() {
+            cities = [.location]
+        }
         for i in 0..<myarray.count {
             cities.append(.city(name: myarray[i]))
         }
-//        if cities.count == 0 {
-//            cities.append(.city(name: "London"))
-//        }
     }
 }
 
