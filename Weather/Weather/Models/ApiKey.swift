@@ -10,6 +10,6 @@ import Foundation
 
 class ApiKey {
     static var key: String {
-        get { return "Whuzh6hllt8nY2GOzW9jgMbmS6sXtIIA" } //2Y3QkGbwhy2MMit0vIbCJMzCp0lITYx3
+        get { return "V9Coi27d0wwnHo3iAqXCa1RKF0xNKelx" } //2Y3QkGbwhy2MMit0vIbCJMzCp0lITYx3
     }
 }

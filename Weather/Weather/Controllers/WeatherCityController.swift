@@ -37,10 +37,10 @@ class WeatherCityController: UIViewController {
         if model.isLoaded {
             updateInterface()
         } else if Reachability.isConnectedToNetwork() {
-//            setSubviewsHidden(true)
-//            hud = MBProgressHUD.showAdded(to: self.view, animated: true)
-//            hud?.mode = .indeterminate
-//            hud?.detailsLabel.text = "Please wait"
+            setSubviewsHidden(true)
+            hud = MBProgressHUD.showAdded(to: self.view, animated: true)
+            hud?.mode = .indeterminate
+            hud?.detailsLabel.text = "Please wait"
             model.updateData {
                 self.updateInterface()
             }

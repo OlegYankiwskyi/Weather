@@ -18,10 +18,14 @@ class NewCityController: UIViewController {
     var pinAnnotationView: MKPinAnnotationView!
     var modelDelegate: CitiesModel!
     @IBOutlet weak var mapView: MKMapView!
-
     
     @IBAction func tapDoneButton(_ sender: Any) {
-        modelDelegate.isValidCity(longitude: mapView.centerCoordinate.longitude, latitude: mapView.centerCoordinate.latitude) { isValid, city in
+        guard let annotation = pointAnnotation else  {
+            showAlert(title: "Error", message: "Please choose a city")
+            return
+        }
+        
+        modelDelegate.isValidCity(longitude: annotation.coordinate.longitude, latitude: annotation.coordinate.latitude) { isValid, city in
             DispatchQueue.main.async {
                 if isValid {
                     self.showСonfirmAlert(title: city, message: "Would you like to add this city ?") {
@@ -47,6 +51,23 @@ class NewCityController: UIViewController {
     
     @IBAction func tapCancelButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let touchPoint = touch.location(in: self.mapView)
+            let location = self.mapView.convert(touchPoint, toCoordinateFrom: self.mapView)
+            self.pointAnnotation = MKPointAnnotation()
+            pointAnnotation.coordinate = location
+            removeAnnotations()
+            mapView.addAnnotation(pointAnnotation)
+        }
+    }
+    
+    private func removeAnnotations() {
+        mapView.annotations.forEach { annotation in
+            mapView.removeAnnotation(annotation)
+        }
     }
 }
 
@@ -81,10 +102,6 @@ extension NewCityController: UISearchBarDelegate {
         }
     }
 }
-
-
-
-
 
 
 
