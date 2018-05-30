@@ -13,7 +13,8 @@ class PageViewController: UIPageViewController {
     let citiesModel = CitiesModel()
     lazy var models = [WeatherModelProtocol?](repeating: nil, count: citiesModel.cities.count)
     var currentController: WeatherCityController?
-    
+    let toolBar = UIToolbar()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -40,6 +41,7 @@ class PageViewController: UIPageViewController {
             guard let city = self.citiesModel.cities.last else { return }
             self.models.append(WeatherModelFactory.getModel(type: city))
             guard let controller = createController(index: models.count-1) else { return }
+            toolBar.isHidden = false
             setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             
         case .delete(let index):
@@ -49,6 +51,7 @@ class PageViewController: UIPageViewController {
             } else {
                 guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
                 controller.modelDelegate = citiesModel
+                toolBar.isHidden = true
                 setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             }
         }
@@ -61,6 +64,7 @@ class PageViewController: UIPageViewController {
         if !models.indices.contains(0) {
             guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return nil }
             controller.modelDelegate = citiesModel
+            toolBar.isHidden = true
             return controller
         } else if models[index] != nil {
             controller.model = models[index]
@@ -88,7 +92,6 @@ class PageViewController: UIPageViewController {
     }
     
     private func createMenu() {
-        let toolBar = UIToolbar()
         var items = [UIBarButtonItem]()
         items.append(
             UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapsOnAdd))
