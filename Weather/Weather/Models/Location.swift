@@ -9,7 +9,7 @@
 import Foundation
 import CoreLocation
 
-class Location  {
+class Location {
     static func isEnabled() -> Bool {
         if CLLocationManager.locationServicesEnabled() {
             switch CLLocationManager.authorizationStatus() {

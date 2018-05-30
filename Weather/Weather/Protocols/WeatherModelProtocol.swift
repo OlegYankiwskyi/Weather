@@ -13,7 +13,7 @@ protocol WeatherModelProtocol: class {
     var weatherDay: WeatherDay? { get set }
     var weatherTwelveHours: [WeatherHours] { get set }
     var weatherFiveDays: [WeatherDay] { get set }
-    var city: String { get set }
+    var city: String! { get set }
 
     func updateData(completion: @escaping ()->Void)
 }

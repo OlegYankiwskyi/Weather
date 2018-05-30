@@ -14,7 +14,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherDay: WeatherDay?
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
     var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
-    var city = String() //TO DO
+    var city: String!
     lazy var locationManager = CLLocationManager()
     var delegateUpdate: (()->Void)?
     
