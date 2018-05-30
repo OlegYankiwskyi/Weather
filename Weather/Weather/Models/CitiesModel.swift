@@ -96,7 +96,6 @@ class CitiesModel: Request {
             cities = [.location]
         }
         for i in 0..<myarray.count {
-            print(myarray[i])
             cities.append(.city(name: myarray[i]))
         }
         if cities.count == 0 {

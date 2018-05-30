@@ -15,17 +15,17 @@ protocol WeatherModelProtocol: class {
     var weatherFiveDays: [WeatherDay] { get set }
     var city: String { get set }
 
-    func updateData(complete: @escaping ()->Void)
+    func updateData(completion: @escaping ()->Void)
 }
 
 extension WeatherModelProtocol {
-    var isLoad: Bool {
+    var isLoaded: Bool {
         get {
             if weatherDay == nil {
                 return false
             }
             for i in 0..<weatherTwelveHours.count {
-                if !weatherTwelveHours[i].isLoad {
+                if !weatherTwelveHours[i].isLoaded {
                     return false
                 }
             }
@@ -37,7 +37,7 @@ extension WeatherModelProtocol {
             return true
         }
     }
-    func getWeatherOneDay(locationKey: JSON, complete: (()->Void)?) {
+    func getWeatherOneDay(locationKey: JSON, completion: (()->Void)?) {
         let url = "https://dataservice.accuweather.com/forecasts/v1/daily/1day/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
         Request.request(url: url, complete: { data in
             self.weatherDay = self.weatherDay ?? WeatherDay()
@@ -46,24 +46,24 @@ extension WeatherModelProtocol {
             self.weatherDay?.dayDescription = data["DailyForecasts"][0]["Day"]["IconPhrase"].string
             self.weatherDay?.nightDescription = data["DailyForecasts"][0]["Night"]["IconPhrase"].string
             self.weatherDay?.isLoad = true
-            complete?()
+            completion?()
         })
     }
     
-    func getWeatherTwelveHours(locationKey: JSON, complete: (()->Void)?) {
+    func getWeatherTwelveHours(locationKey: JSON, completion: (()->Void)?) {
         let url = "https://dataservice.accuweather.com/forecasts/v1/hourly/12hour/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
         Request.request(url: url, complete: { data in
             for i in 0..<12 {
                 guard let temperature = data[i]["Temperature"]["Value"].int,
                     let time = data[i]["DateTime"].string else { return }
                 self.weatherTwelveHours[i] = WeatherHours(temperature: temperature, time: Parser.getTime(str: time))
-                self.weatherTwelveHours[i].isLoad = true
+                self.weatherTwelveHours[i].isLoaded = true
             }
-            complete?()
+            completion?()
         })
     }
     
-    func getWeatherFiveDays(locationKey: JSON, complete: (()->Void)?) {
+    func getWeatherFiveDays(locationKey: JSON, completion: (()->Void)?) {
         let url = "https://dataservice.accuweather.com/forecasts/v1/daily/5day/\(locationKey)?apikey=\(ApiKey.key)&metric=true"
         Request.request(url: url, complete: { data in
             for i in 0..<self.weatherFiveDays.count {
@@ -76,7 +76,7 @@ extension WeatherModelProtocol {
                 }
                 self.weatherFiveDays[i].isLoad = true
             }
-            complete?()
+            completion?()
         })
     }
 }

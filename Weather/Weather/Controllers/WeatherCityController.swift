@@ -18,7 +18,6 @@ class WeatherCityController: UIViewController {
     @IBOutlet weak var dayWeatherLabel: UILabel!
     @IBOutlet weak var nightWeatherLabel: UILabel!
     @IBOutlet weak var weatherFiveDays: UITableView!
-    @IBOutlet weak var navigationBar: UINavigationItem!
     @IBOutlet weak var scrollRefresh: UIScrollView!
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -35,13 +34,10 @@ class WeatherCityController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.scrollRefresh.addSubview(self.refreshControl)
-        navigationBar.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector(deleteCity))
-        navigationBar.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector(addCity))
-        navigationBar.rightBarButtonItem?.tintColor = .red
-        if model.isLoad {
+        if model.isLoaded {
             updateInterface()
         } else if Reachability.isConnectedToNetwork() {
-            isHiddenView(true)
+            setSubviewsHidden(true)
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
             hud?.detailsLabel.text = "Please wait"
@@ -53,10 +49,20 @@ class WeatherCityController: UIViewController {
         }
     }
     
-    private func isHiddenView(_ value: Bool) {
-        for i in 0..<view.subviews.count {
-            view.subviews[i].isHidden = value
+    private func setSubviewsHidden(_ hidden: Bool) {
+        view.subviews.forEach { $0.isHidden = hidden }
+    }
+    
+    @IBAction func tapDeleteButton(_ sender: Any) {
+        if !modelDelegate.deleteCity(city: model.city) {
+            showAlert(title: "Error", message: "You can not delete this page")
         }
+    }
+    
+    @IBAction func tapAddButton(_ sender: Any) {
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
+        controller.modelDelegate = modelDelegate
+        self.present(controller, animated: true, completion: nil)
     }
     
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
@@ -67,18 +73,6 @@ class WeatherCityController: UIViewController {
             }
         } else {
             self.showAlert(title: "error", message: "Internet connection")
-        }
-    }
-    
-    @objc func addCity() {
-        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
-        controller.modelDelegate = modelDelegate
-        self.present(controller, animated: true, completion: nil)
-    }
-    
-    @objc func deleteCity() {
-        if !modelDelegate.deleteCity(city: model.city) {
-            showAlert(title: "Error", message: "You can not delete this page")
         }
     }
     
@@ -100,9 +94,9 @@ class WeatherCityController: UIViewController {
             self.weatherTwelveHours.reloadData()
             self.weatherFiveDays.reloadData()
             
-            if self.model.isLoad {
+            if self.model.isLoaded {
                 self.hud?.hide(animated: true, afterDelay: 0.1)
-                self.isHiddenView(false)
+                self.setSubviewsHidden(false)
             }
         }
     }

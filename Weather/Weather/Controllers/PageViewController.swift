@@ -10,7 +10,7 @@ import UIKit
 
 class PageViewController: UIPageViewController {
     
-    var citiesModel = CitiesModel()
+    let citiesModel = CitiesModel()
     lazy var models = [WeatherModelProtocol?](repeating: nil, count: citiesModel.cities.count)
     
     override func viewDidLoad() {

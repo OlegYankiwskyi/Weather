@@ -144,7 +144,19 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="44w-Nh-sdZ">
                                 <rect key="frame" x="0.0" y="524" width="320" height="44"/>
                                 <items>
-                                    <navigationItem id="Pi2-Qh-eId"/>
+                                    <navigationItem id="Pi2-Qh-eId">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="add" id="k5B-mn-YbZ">
+                                            <connections>
+                                                <action selector="tapAddButton:" destination="BYZ-38-t0r" id="gmM-dP-HoC"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="trash" id="P9S-9T-rrt">
+                                            <color key="tintColor" red="1" green="0.2211682834" blue="0.29758971029999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <action selector="tapDeleteButton:" destination="BYZ-38-t0r" id="HS8-fN-S1T"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dfQ-9F-rtw">
@@ -222,7 +234,6 @@
                     <connections>
                         <outlet property="cityLabel" destination="i5X-EO-585" id="3za-CP-llk"/>
                         <outlet property="dayWeatherLabel" destination="rnk-Iq-g0F" id="yPx-FV-zdZ"/>
-                        <outlet property="navigationBar" destination="Pi2-Qh-eId" id="OHW-HJ-DMT"/>
                         <outlet property="nightWeatherLabel" destination="aXG-FB-fbY" id="Oya-4m-f9g"/>
                         <outlet property="scrollRefresh" destination="pjG-d4-x5L" id="UGG-as-MjD"/>
                         <outlet property="temperatureMaxLabel" destination="uta-EE-9O3" id="hcS-TA-w2q"/>
