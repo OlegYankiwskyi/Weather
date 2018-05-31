@@ -43,13 +43,13 @@ class WeatherCityController: UIViewController {
             hud?.detailsLabel.text = "Please wait"
             model.updateData { error in
                 if let error = error {
-                    self.showAlert(title: "Error", message: error.description)
+                    self.showErrorAlert(message: error.description)
                 } else {
                     self.updateInterface()
                 }
             }
         } else {
-            self.showAlert(title: "error", message: "Internet connection")
+            self.showErrorAlert(message: Error.internetConnection.description)
         }
     }
     
@@ -62,7 +62,7 @@ class WeatherCityController: UIViewController {
     }
     
     func add() {
-        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AddNewCityController.reuseIdentifier) as? AddNewCityController else { return }
         controller.modelDelegate = modelDelegate
         self.present(controller, animated: true, completion: nil)
     }
@@ -74,7 +74,7 @@ class WeatherCityController: UIViewController {
                 refreshControl.endRefreshing()
             }
         } else {
-            self.showAlert(title: "error", message: "Internet connection")
+            self.showErrorAlert(message: "Internet connection")
         }
     }
     

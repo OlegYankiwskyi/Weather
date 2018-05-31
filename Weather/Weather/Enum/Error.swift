@@ -13,6 +13,7 @@ enum Error {
     case locationKey
     case statusCode(code: Int)
     case createUrl
+    case internetConnection
     
     var description: String {
         switch self {
@@ -24,6 +25,8 @@ enum Error {
             return "Response code = \(code)"
         case .createUrl:
             return "Url is not valid"
+        case .internetConnection:
+            return "Internet connection is lost"
         }
     }
 }

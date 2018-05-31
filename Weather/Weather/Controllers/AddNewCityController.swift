@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class NewCityController: UIViewController {
+class AddNewCityController: UIViewController {
     var searchController: UISearchController!
     var annotation: MKAnnotation!
     var localSearchRequest: MKLocalSearchRequest!
@@ -18,10 +18,17 @@ class NewCityController: UIViewController {
     var pinAnnotationView: MKPinAnnotationView!
     var modelDelegate: CitiesModel!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
+    
+    override func viewDidLoad() {
+        if modelDelegate.cities.count == 0 {
+            cancelButton.isEnabled = false
+        }
+    }
     
     @IBAction func tapDoneButton(_ sender: Any) {
         guard let annotation = pointAnnotation else  {
-            showAlert(title: "Error", message: "Please choose a city")
+            showErrorAlert(message: "Please choose a city")
             return
         }
         
@@ -32,11 +39,11 @@ class NewCityController: UIViewController {
                         if self.modelDelegate.addCity(city: city) {
                             self.dismiss(animated: true, completion: nil)
                         } else {
-                            self.showAlert(title: "Error", message: "We can not add \(city)")
+                            self.showErrorAlert(message: "We can not add \(city)")
                         }
                     }
                 } else {
-                    self.showAlert(title: "Error", message: "This city is not valid")
+                    self.showErrorAlert(message: "This city is not valid")
                 }
             }
         }
@@ -71,7 +78,7 @@ class NewCityController: UIViewController {
     }
 }
 
-extension NewCityController: UISearchBarDelegate {
+extension AddNewCityController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         dismiss(animated: true, completion: nil)
@@ -87,7 +94,7 @@ extension NewCityController: UISearchBarDelegate {
         localSearch.start { (localSearchResponse, error) -> Void in
 
             if localSearchResponse == nil {
-                self.showAlert(title: "Error", message: "Place Not Found")
+                self.showErrorAlert(message: "Place Not Found")
                 return
             }
 

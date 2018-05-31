@@ -22,7 +22,7 @@ class PageViewController: UIPageViewController {
         citiesModel.updateView = updateData
         
         createMenu()
-        guard let controller = createController(index: 0) else { return }
+        guard let controller = createWeatherCityController(index: 0) else { return }
         currentController = controller as? WeatherCityController
         setViewControllers([controller], direction: .forward, animated: true, completion: nil)
     }
@@ -40,32 +40,33 @@ class PageViewController: UIPageViewController {
         case .append:
             guard let city = self.citiesModel.cities.last else { return }
             self.models.append(WeatherModelFactory.getModel(type: city))
-            guard let controller = createController(index: models.count-1) else { return }
+            guard let controller = createWeatherCityController(index: models.count-1) else { return }
             toolBar.isHidden = false
             setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             
         case .delete(let index):
             self.models.remove(at: index)
-            if let controller = createController(index: 0) {
+            if let controller = createWeatherCityController(index: 0) {
                 setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             } else {
-                guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
-                controller.modelDelegate = citiesModel
-                toolBar.isHidden = true
-                setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+                setViewControllers([newCityController() ?? UIViewController()], direction: .forward, animated: true, completion: nil)
             }
         }
     }
     
-    private func createController(index: Int) -> UIViewController? {
+    private func newCityController() -> UIViewController? {
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AddNewCityController.reuseIdentifier) as? AddNewCityController else { return nil }
+        controller.modelDelegate = citiesModel
+        toolBar.isHidden = true
+        return controller
+    }
+    
+    private func createWeatherCityController(index: Int) -> UIViewController? {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return nil }
         controller.modelDelegate = citiesModel
         
         if !models.indices.contains(0) {
-            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return nil }
-            controller.modelDelegate = citiesModel
-            toolBar.isHidden = true
-            return controller
+            return newCityController()
         } else if models[index] != nil {
             controller.model = models[index]
         } else {
@@ -133,7 +134,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         if viewControllerIndex-1 < 0  {
             return nil
         }
-        return createController(index: viewControllerIndex-1)
+        return createWeatherCityController(index: viewControllerIndex-1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -143,7 +144,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         if viewControllerIndex+1 >= citiesModel.cities.count {
             return nil
         }
-        return createController(index: viewControllerIndex+1)
+        return createWeatherCityController(index: viewControllerIndex+1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool)

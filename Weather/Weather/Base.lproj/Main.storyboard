@@ -97,19 +97,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXE-20-XXg">
-                                                    <rect key="frame" x="26" y="11" width="28" height="22"/>
+                                                    <rect key="frame" x="30" y="11" width="28" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="txK-p9-hM7">
-                                                    <rect key="frame" x="272" y="11" width="28" height="22"/>
+                                                    <rect key="frame" x="366" y="11" width="28" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.41658695153769015" green="0.50245699169482072" blue="0.56883500647668395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6B-AR-bdg">
-                                                    <rect key="frame" x="229" y="11" width="28" height="22"/>
+                                                    <rect key="frame" x="323" y="11" width="28" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -225,10 +225,10 @@
             </objects>
             <point key="canvasLocation" x="-571.875" y="31.690140845070424"/>
         </scene>
-        <!--New City Controller-->
+        <!--Add New City Controller-->
         <scene sceneID="dPb-O9-5iL">
             <objects>
-                <viewController storyboardIdentifier="NewCityController" id="DWr-Wo-yHb" customClass="NewCityController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddNewCityController" id="DWr-Wo-yHb" customClass="AddNewCityController" customModule="Weather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4US-Qy-KWp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -271,6 +271,7 @@
                         <viewLayoutGuide key="safeArea" id="3gG-Pj-en0"/>
                     </view>
                     <connections>
+                        <outlet property="cancelButton" destination="M6U-Jh-9Rn" id="UIx-if-K9k"/>
                         <outlet property="mapView" destination="HD3-9Y-b6Z" id="iEA-5X-jud"/>
                     </connections>
                 </viewController>
