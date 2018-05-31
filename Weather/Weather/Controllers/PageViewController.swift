@@ -115,13 +115,11 @@ class PageViewController: UIPageViewController {
             toolBar.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
             toolBar.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
             toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-            
-        }
-        else {
+        } else {
             NSLayoutConstraint(item: toolBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
             NSLayoutConstraint(item: toolBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
             NSLayoutConstraint(item: toolBar, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0).isActive = true
-            
+
             toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         }
     }

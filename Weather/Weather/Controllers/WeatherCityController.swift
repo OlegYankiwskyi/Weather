@@ -12,12 +12,12 @@ import MBProgressHUD
 
 class WeatherCityController: UIViewController {
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var weatherTwelveHours: UICollectionView!
+    @IBOutlet weak var weatherHoursCollectionView: UICollectionView!
     @IBOutlet weak var temperatureMaxLabel: UILabel!
     @IBOutlet weak var temperatureMinLabel: UILabel!
     @IBOutlet weak var dayWeatherLabel: UILabel!
     @IBOutlet weak var nightWeatherLabel: UILabel!
-    @IBOutlet weak var weatherFiveDays: UITableView!
+    @IBOutlet weak var weatherDaysTableView: UITableView!
     @IBOutlet weak var scrollRefresh: UIScrollView!
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -41,8 +41,12 @@ class WeatherCityController: UIViewController {
             hud = MBProgressHUD.showAdded(to: self.view, animated: true)
             hud?.mode = .indeterminate
             hud?.detailsLabel.text = "Please wait"
-            model.updateData {
-                self.updateInterface()
+            model.updateData { error in
+                if let error = error {
+                    self.showAlert(title: "Error", message: error.description)
+                } else {
+                    self.updateInterface()
+                }
             }
         } else {
             self.showAlert(title: "error", message: "Internet connection")
@@ -65,7 +69,7 @@ class WeatherCityController: UIViewController {
     
     @objc private func handleRefresh(_ refreshControl: UIRefreshControl) {
         if Reachability.isConnectedToNetwork() {
-            model.updateData {
+            model.updateData {error in 
                 self.updateInterface()
                 refreshControl.endRefreshing()
             }
@@ -89,8 +93,8 @@ class WeatherCityController: UIViewController {
             if let dayWeather = self.model.weatherDay?.dayDescription {
                 self.dayWeatherLabel.text = "day: \(dayWeather)"
             }
-            self.weatherTwelveHours.reloadData()
-            self.weatherFiveDays.reloadData()
+            self.weatherHoursCollectionView.reloadData()
+            self.weatherDaysTableView.reloadData()
             
             if self.model.isLoaded {
                 self.hud?.hide(animated: true, afterDelay: 0.1)
