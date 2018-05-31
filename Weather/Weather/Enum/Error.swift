@@ -9,17 +9,17 @@
 import Foundation
 
 enum Error {
-    case error(description: String)
+    case invalidData
     case locationKey
     case statusCode(code: Int)
     case createUrl
     
     var description: String {
         switch self {
-        case .error(let description):
-            return description
+        case .invalidData:
+            return "Bad response`s data"
         case .locationKey:
-            return "Location Key is not valid"
+            return "Location Key is invalid"
         case .statusCode(let code):
             return "Response code = \(code)"
         case .createUrl:
