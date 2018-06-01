@@ -84,7 +84,7 @@ class PageViewController: UIPageViewController {
                     return i
                 }
             case .location:
-                if city as? WeatherLocationModel != nil {
+                if city is WeatherLocationModel {
                     return i
                 }
             }

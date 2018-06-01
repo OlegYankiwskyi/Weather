@@ -21,6 +21,7 @@ class AddNewCityController: UIViewController {
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         if modelDelegate.cities.count == 0 {
             cancelButton.isEnabled = false
         }

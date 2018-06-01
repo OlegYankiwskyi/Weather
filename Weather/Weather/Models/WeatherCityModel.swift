@@ -51,7 +51,6 @@ class WeatherCityModel: WeatherModelProtocol {
                 self.city = city
             }
             completion(locationKey, nil)
-            
         })
     }
 }
