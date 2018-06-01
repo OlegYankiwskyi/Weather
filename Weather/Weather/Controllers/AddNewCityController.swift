@@ -34,6 +34,10 @@ class AddNewCityController: UIViewController {
         
         modelDelegate.isValidCity(longitude: annotation.coordinate.longitude, latitude: annotation.coordinate.latitude) { isValid, city, error in
             DispatchQueue.main.async {
+                if let error = error {
+                    self.showErrorAlert(message: error.description)
+                    return
+                }
                 if isValid {
                     self.showСonfirmAlert(title: city, message: "Would you like to add this city ?") {
                         if self.modelDelegate.addCity(city: city) {
