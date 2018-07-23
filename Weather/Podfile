@@ -1,0 +1,11 @@
+
+platform :ios, '11.0'
+
+target 'Weather' do
+  inhibit_all_warnings!
+  use_frameworks!
+
+  # Pods for PhotoTagger
+  pod 'SwiftyJSON', '~> 4.0.0'
+  pod 'MBProgressHUD', '~> 1.1.0'
+end

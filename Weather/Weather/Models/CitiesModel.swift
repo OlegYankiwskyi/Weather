@@ -1,0 +1,111 @@
+//
+//  CitiesModel.swift
+//  Weather
+//
+//  Created by Oleg Yankiwskyi on 5/16/18.
+//  Copyright © 2018 Oleg Yankiwskyi. All rights reserved.
+//
+
+import Foundation
+import CoreLocation
+
+class CitiesModel: Request {
+    var cities: [TypeModel] = [] 
+    var updateView: ((TypeOperation)->Void)?
+    private let keyCoreLocation = "citiesCoreLocation"
+    
+    override init() {
+        super.init()
+        self.uploadData()
+//        self.saveData()
+    }
+    
+    func isValidCity(city: String, completion: @escaping (Bool, String, Error?) -> Void) {
+        var parcedCity = city.trimmingCharacters(in: .whitespacesAndNewlines)
+        parcedCity = parcedCity.replacingOccurrences(of: " ", with: "%20")
+        let url = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=\(ApiKey.key)&q=\(parcedCity)"
+        
+        Request.request(url: url, completion: { data, error in
+            if let error = error {
+                completion(false, "", error)
+                return
+            }
+            if let city = data[0]["EnglishName"].string {
+                completion(true, city, nil)
+            } else {
+                completion(false, "", nil)
+            }
+        })
+    }
+    
+    func isValidCity(longitude: Double, latitude: Double, completion: @escaping (Bool, String, Error?) -> Void) {
+        let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(ApiKey.key)&q=\(latitude)%2C\(longitude)"
+
+        Request.request(url: url, completion: { data, error in
+            if let error = error {
+                completion(false, "", error)
+                return
+            }
+            if let city = data["ParentCity"]["EnglishName"].string {
+                completion(true, city, nil)
+            } else if let city = data["EnglishName"].string {
+                completion(true, city, nil)
+            } else {
+                completion(false, "", nil)
+            }
+        })
+    }
+    
+    func deleteCity(city cityName: String) {
+
+        if let index = cities.index(of: .city(name: cityName)) {
+            cities.remove(at: index)
+            updateView?(.delete(index: index))
+        } else if cities.indices.contains(0) {
+            cities.remove(at: 0)
+            updateView?(.delete(index: 0))
+        }
+        saveData()
+    }
+    
+    func addCity(city cityName: String) -> Bool {
+        let parcedCity = cityName.trimmingCharacters(in: .whitespacesAndNewlines)
+        let isContains = cities.contains { $0 == .city(name: parcedCity) }
+    
+        if isContains {
+            return false
+        } else {
+            cities.append(.city(name: parcedCity))
+            self.saveData()
+            updateView?(.append)
+            return true
+        }
+    }
+    
+    private func saveData() {
+        let defaults = UserDefaults.standard
+        var array: [String] = []
+        for i in 0..<cities.count {
+            switch cities[i] {
+            case .city(let name):
+                array.append(name)
+            default:
+                break
+            }
+        }
+        defaults.set(array, forKey: keyCoreLocation)
+    }
+    
+    private func uploadData() {
+        let defaults = UserDefaults.standard
+        let myarray = defaults.stringArray(forKey: keyCoreLocation) ?? [String]()
+
+        if Location.isEnabled() {
+            cities = [.location]
+        }
+        for i in 0..<myarray.count {
+            cities.append(.city(name: myarray[i]))
+        }
+    }
+}
+
