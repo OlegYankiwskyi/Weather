@@ -17,6 +17,7 @@
 		1D495B0020AAE1D900A1C997 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D495AFF20AAE1D900A1C997 /* CustomCollectionViewCell.swift */; };
 		1D495B0520AAE25B00A1C997 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D495B0420AAE25B00A1C997 /* CollectionViewCell.swift */; };
 		1D495B0920AAED1700A1C997 /* WeatherCityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D495B0820AAED1700A1C997 /* WeatherCityModel.swift */; };
+		1D4D1B1920BFDF6500E5E58C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4D1B1820BFDF6500E5E58C /* Error.swift */; };
 		1D50083620B6A8020072F26D /* TypeOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D50083520B6A8020072F26D /* TypeOperation.swift */; };
 		1D55364720AC2C97002C25B0 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D55364620AC2C97002C25B0 /* PageViewController.swift */; };
 		1D55364920AC2CC2002C25B0 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D55364820AC2CC2002C25B0 /* UIViewController.swift */; };
@@ -34,7 +35,7 @@
 		1D55B60D20ADDA60005D3AF4 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D55B60C20ADDA60005D3AF4 /* Parser.swift */; };
 		1D6A8DA920AEB47700B3F95B /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A8DA820AEB47700B3F95B /* String.swift */; };
 		1D760EAB20B7FB6C00B814E2 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D760EAA20B7FB6C00B814E2 /* Reachability.swift */; };
-		1D760EAD20B8277600B814E2 /* NewCityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D760EAC20B8277600B814E2 /* NewCityController.swift */; };
+		1D760EAD20B8277600B814E2 /* AddNewCityController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D760EAC20B8277600B814E2 /* AddNewCityController.swift */; };
 		1D782EA220B45BBB00C7007E /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D782EA120B45BBB00C7007E /* Location.swift */; };
 		C0400DE261775015A904BB33 /* Pods_Weather.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33A247E9FA4768C7ED8B400B /* Pods_Weather.framework */; };
 /* End PBXBuildFile section */
@@ -73,6 +74,7 @@
 		1D495AFF20AAE1D900A1C997 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		1D495B0420AAE25B00A1C997 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		1D495B0820AAED1700A1C997 /* WeatherCityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCityModel.swift; sourceTree = "<group>"; };
+		1D4D1B1820BFDF6500E5E58C /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		1D50083520B6A8020072F26D /* TypeOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeOperation.swift; sourceTree = "<group>"; };
 		1D55364620AC2C97002C25B0 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		1D55364820AC2CC2002C25B0 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
@@ -90,7 +92,7 @@
 		1D55B60C20ADDA60005D3AF4 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		1D6A8DA820AEB47700B3F95B /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1D760EAA20B7FB6C00B814E2 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
-		1D760EAC20B8277600B814E2 /* NewCityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCityController.swift; sourceTree = "<group>"; };
+		1D760EAC20B8277600B814E2 /* AddNewCityController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewCityController.swift; sourceTree = "<group>"; };
 		1D782EA120B45BBB00C7007E /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		33A247E9FA4768C7ED8B400B /* Pods_Weather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Weather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		42D086BCCE9018979F19B20D /* Pods-Weather.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Weather.release.xcconfig"; path = "Pods/Target Support Files/Pods-Weather/Pods-Weather.release.xcconfig"; sourceTree = "<group>"; };
@@ -206,7 +208,7 @@
 			children = (
 				1D495AD320AACF9100A1C997 /* WeatherCityController.swift */,
 				1D55364620AC2C97002C25B0 /* PageViewController.swift */,
-				1D760EAC20B8277600B814E2 /* NewCityController.swift */,
+				1D760EAC20B8277600B814E2 /* AddNewCityController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -234,6 +236,7 @@
 			children = (
 				1D55365520AC667A002C25B0 /* TypeModel.swift */,
 				1D50083520B6A8020072F26D /* TypeOperation.swift */,
+				1D4D1B1820BFDF6500E5E58C /* Error.swift */,
 			);
 			path = Enum;
 			sourceTree = "<group>";
@@ -456,7 +459,8 @@
 				1D55364B20AC386B002C25B0 /* WeatherModelFactory.swift in Sources */,
 				1D6A8DA920AEB47700B3F95B /* String.swift in Sources */,
 				1D495B0020AAE1D900A1C997 /* CustomCollectionViewCell.swift in Sources */,
-				1D760EAD20B8277600B814E2 /* NewCityController.swift in Sources */,
+				1D760EAD20B8277600B814E2 /* AddNewCityController.swift in Sources */,
+				1D4D1B1920BFDF6500E5E58C /* Error.swift in Sources */,
 				1D495B0920AAED1700A1C997 /* WeatherCityModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

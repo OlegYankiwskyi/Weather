@@ -14,18 +14,23 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
     var weatherDay: WeatherDay?
     var weatherTwelveHours = [WeatherHours](repeating: WeatherHours(), count: 12)
     var weatherFiveDays = [WeatherDay](repeating: WeatherDay(), count: 5)
-    var city: String!
+    var city: String! = "location"
     lazy var locationManager = CLLocationManager()
-    var callback: (()->Void)?
+    var callback: ((Error?) -> Void)?
+
     
-    func updateData(completion: @escaping ()->Void) {
+    func updateData(completion: @escaping (Error?)->Void) {
         callback = completion
         updateLocation()
     }
     
-    private func getLocationKey(latitude: Double, longitude: Double, complete: @escaping (JSON)->Void) {
+    private func getLocationKey(latitude: Double, longitude: Double, completion: @escaping (JSON, Error?)->Void) {
         let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(ApiKey.key)&q=\(latitude)%2C\(longitude)"
-        Request.request(url: url, complete: { data in
+        Request.request(url: url, completion: { data, error in
+            if let error = error {
+                completion(JSON.null, error)
+                return
+            }
             let locationKey = data["Key"]
             if locationKey == "null" {
                 print("locationKey is null")
@@ -36,7 +41,7 @@ class WeatherLocationModel: NSObject, WeatherModelProtocol {
             } else if let city = data["AdministrativeArea"]["EnglishName"].string {
                 self.city = city
             }
-            complete(locationKey)
+            completion(locationKey, nil)
         })
     }
 
@@ -60,7 +65,11 @@ extension WeatherLocationModel: CLLocationManagerDelegate {
         let latitude = lastLocation.coordinate.latitude
         let longitude = lastLocation.coordinate.longitude
 
-        getLocationKey(latitude: latitude, longitude: longitude, complete: { locationKey in
+        getLocationKey(latitude: latitude, longitude: longitude, completion: { locationKey, error in
+            if let error = error {
+                self.callback?(error)
+                return
+            }
             self.getWeatherOneDay(locationKey: locationKey, completion: self.callback)
             self.getWeatherTwelveHours(locationKey: locationKey, completion: self.callback)
             self.getWeatherFiveDays(locationKey: locationKey, completion: self.callback)

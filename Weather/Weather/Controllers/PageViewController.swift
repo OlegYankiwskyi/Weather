@@ -13,8 +13,8 @@ class PageViewController: UIPageViewController {
     let citiesModel = CitiesModel()
     lazy var models = [WeatherModelProtocol?](repeating: nil, count: citiesModel.cities.count)
     var currentController: WeatherCityController?
-    let toolBar = UIToolbar()
-
+    var navBar: UINavigationBar?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.delegate = self
@@ -22,7 +22,7 @@ class PageViewController: UIPageViewController {
         citiesModel.updateView = updateData
         
         createMenu()
-        guard let controller = createController(index: 0) else { return }
+        guard let controller = createWeatherCityController(index: 0) else { return }
         currentController = controller as? WeatherCityController
         setViewControllers([controller], direction: .forward, animated: true, completion: nil)
     }
@@ -40,32 +40,33 @@ class PageViewController: UIPageViewController {
         case .append:
             guard let city = self.citiesModel.cities.last else { return }
             self.models.append(WeatherModelFactory.getModel(type: city))
-            guard let controller = createController(index: models.count-1) else { return }
-            toolBar.isHidden = false
+            guard let controller = createWeatherCityController(index: models.count-1) else { return }
+            navBar?.isHidden = false
             setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             
         case .delete(let index):
             self.models.remove(at: index)
-            if let controller = createController(index: 0) {
+            if let controller = createWeatherCityController(index: 0) {
                 setViewControllers([controller], direction: .forward, animated: true, completion: nil)
             } else {
-                guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return }
-                controller.modelDelegate = citiesModel
-                toolBar.isHidden = true
-                setViewControllers([controller], direction: .forward, animated: true, completion: nil)
+                setViewControllers([newCityController() ?? UIViewController()], direction: .forward, animated: true, completion: nil)
             }
         }
     }
     
-    private func createController(index: Int) -> UIViewController? {
+    private func newCityController() -> UIViewController? {
+        guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: AddNewCityController.reuseIdentifier) as? AddNewCityController else { return nil }
+        controller.modelDelegate = citiesModel
+        navBar?.isHidden = true
+        return controller
+    }
+    
+    private func createWeatherCityController(index: Int) -> UIViewController? {
         guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: WeatherCityController.reuseIdentifier) as? WeatherCityController else { return nil }
         controller.modelDelegate = citiesModel
         
         if !models.indices.contains(0) {
-            guard let controller = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: NewCityController.reuseIdentifier) as? NewCityController else { return nil }
-            controller.modelDelegate = citiesModel
-            toolBar.isHidden = true
-            return controller
+            return newCityController()
         } else if models[index] != nil {
             controller.model = models[index]
         } else {
@@ -83,7 +84,7 @@ class PageViewController: UIPageViewController {
                     return i
                 }
             case .location:
-                if city as? WeatherLocationModel != nil {
+                if city is WeatherLocationModel {
                     return i
                 }
             }
@@ -92,38 +93,15 @@ class PageViewController: UIPageViewController {
     }
     
     private func createMenu() {
-        var items = [UIBarButtonItem]()
-        items.append(
-            UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapsOnAdd))
-        )
-        items.append(
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        )
-        items.append(
-            UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(tapsOnDelete))
-        )
-        
-        toolBar.setItems(items, animated: true)
-        view.addSubview(toolBar)
-        
-        toolBar.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        if #available(iOS 11.0, *) {
-            let guide = self.view.safeAreaLayoutGuide
-            toolBar.trailingAnchor.constraint(equalTo: guide.trailingAnchor).isActive = true
-            toolBar.leadingAnchor.constraint(equalTo: guide.leadingAnchor).isActive = true
-            toolBar.bottomAnchor.constraint(equalTo: guide.bottomAnchor).isActive = true
-            toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-            
-        }
-        else {
-            NSLayoutConstraint(item: toolBar, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
-            NSLayoutConstraint(item: toolBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
-            NSLayoutConstraint(item: toolBar, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0).isActive = true
-            
-            toolBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        }
+        let height = CGFloat(44)
+        navBar = UINavigationBar(frame: CGRect(x: 0, y: view.frame.maxY - height, width: view.frame.maxX, height: height))
+        self.view.addSubview(navBar!)
+        let navItem = UINavigationItem(title: "")
+        let doneItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: #selector (tapsOnAdd))
+        let deleteItem = UIBarButtonItem(barButtonSystemItem: .trash, target: nil, action: #selector (tapsOnDelete))
+        navItem.leftBarButtonItem = doneItem
+        navItem.rightBarButtonItem = deleteItem
+        navBar!.setItems([navItem], animated: false)
     }
 }
 
@@ -135,7 +113,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         if viewControllerIndex-1 < 0  {
             return nil
         }
-        return createController(index: viewControllerIndex-1)
+        return createWeatherCityController(index: viewControllerIndex-1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -145,7 +123,7 @@ extension PageViewController: UIPageViewControllerDelegate, UIPageViewController
         if viewControllerIndex+1 >= citiesModel.cities.count {
             return nil
         }
-        return createController(index: viewControllerIndex+1)
+        return createWeatherCityController(index: viewControllerIndex+1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool)

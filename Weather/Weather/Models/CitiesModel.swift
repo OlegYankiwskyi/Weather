@@ -20,30 +20,38 @@ class CitiesModel: Request {
 //        self.saveData()
     }
     
-    func isValidCity(city: String, complete: @escaping (Bool,String)->Void) {
+    func isValidCity(city: String, completion: @escaping (Bool, String, Error?) -> Void) {
         var parcedCity = city.trimmingCharacters(in: .whitespacesAndNewlines)
         parcedCity = parcedCity.replacingOccurrences(of: " ", with: "%20")
         let url = "https://dataservice.accuweather.com/locations/v1/cities/search?apikey=\(ApiKey.key)&q=\(parcedCity)"
         
-        Request.request(url: url, complete: { data in
+        Request.request(url: url, completion: { data, error in
+            if let error = error {
+                completion(false, "", error)
+                return
+            }
             if let city = data[0]["EnglishName"].string {
-                complete(true, city)
+                completion(true, city, nil)
             } else {
-                complete(false, "")
+                completion(false, "", nil)
             }
         })
     }
     
-    func isValidCity(longitude: Double, latitude: Double, complete: @escaping (Bool,String)->Void) {
+    func isValidCity(longitude: Double, latitude: Double, completion: @escaping (Bool, String, Error?) -> Void) {
         let url = "https://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=\(ApiKey.key)&q=\(latitude)%2C\(longitude)"
 
-        Request.request(url: url, complete: { data in
+        Request.request(url: url, completion: { data, error in
+            if let error = error {
+                completion(false, "", error)
+                return
+            }
             if let city = data["ParentCity"]["EnglishName"].string {
-                complete(true, city)
+                completion(true, city, nil)
             } else if let city = data["EnglishName"].string {
-                complete(true, city)
+                completion(true, city, nil)
             } else {
-                complete(false, "")
+                completion(false, "", nil)
             }
         })
     }
