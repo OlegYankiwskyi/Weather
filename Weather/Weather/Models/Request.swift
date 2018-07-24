@@ -25,7 +25,12 @@ class Request {
                 case .failure(let error):
                     print("\(error.localizedDescription) , url = \(url)")
                 }
+                completion(JSON(data), nil)
+            } else {
+                completion(JSON.null, .statusCode(code: httpResponse.statusCode))
+            }
         }
+        task.resume()
     }
 }
 
